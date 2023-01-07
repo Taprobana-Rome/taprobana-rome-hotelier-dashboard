@@ -56,7 +56,7 @@ const Register = () => {
           minHeight: "100%",
         }}
       >
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" style={{ marginTop: '50px', marginBottom: '50px' }}>
           <NextLink href="/" passHref>
             <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>
               Hotelier Dashboard
