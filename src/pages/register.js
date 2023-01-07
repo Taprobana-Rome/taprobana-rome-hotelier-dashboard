@@ -45,7 +45,7 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>Register | Material Kit</title>
+        <title>Hotelier Register | Taprobana</title>
       </Head>
       <Box
         component="main"
