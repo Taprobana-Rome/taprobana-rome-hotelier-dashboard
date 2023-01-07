@@ -2,7 +2,7 @@ import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import MoneyIcon from '@mui/icons-material/Money';
 
-export const Budget = (props) => (
+export const NewBooking = (props) => (
   <Card
     sx={{ height: '100%' }}
     {...props}
@@ -19,13 +19,13 @@ export const Budget = (props) => (
             gutterBottom
             variant="overline"
           >
-            Checking
+            New booking
           </Typography>
           <Typography
             color="textPrimary"
             variant="h4"
           >
-            100
+            90
           </Typography>
         </Grid>
         <Grid item>
