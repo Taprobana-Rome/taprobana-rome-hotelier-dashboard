@@ -39,6 +39,7 @@ const VISIBLE_FIELDS = ["name", "rating", "country", "dateCreated", "isAdmin"];
 export const CustomerListResults = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const[selectedRow,setSelectedRow]=useState([]);
   const open = Boolean(anchorEl);
 
   var rows = [
@@ -52,13 +53,23 @@ export const CustomerListResults = () => {
     { field: "col2", headerName: "Column 2", width: 150 },
   ];
 
+
   // menu start
-  const handleClick = (event) => {
+  const handleClick = (event,rowData) => {
     setAnchorEl(event.currentTarget);
+    setSelectedRow(rowData)
+    
   };
   const handleClose = () => {
-    console.log("hello");
-    
+    setAnchorEl(null);
+  };
+  const handleEdit = () => {
+    console.log('Edit => ',selectedRow);
+    setAnchorEl(null);
+  };
+  const handleDelete = () => {
+    console.log('delete => ',selectedRow);
+    setAnchorEl(null);
   };
 
   const actionColumn = [
@@ -74,7 +85,7 @@ export const CustomerListResults = () => {
             aria-controls={open ? 'basic-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
+            onClick={(e)=>handleClick(e,params.row)}
           >
             <MoreVertIcon/>
           </Button>
@@ -87,8 +98,8 @@ export const CustomerListResults = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={handleClose} sx={{color:'green'}}>Edit</MenuItem>
-            <MenuItem onClick={handleClose} sx={{color:'red'}}>Delete</MenuItem>
+            <MenuItem onClick={handleEdit} sx={{color:'green'}}>Edit</MenuItem>
+            <MenuItem onClick={handleDelete} sx={{color:'red'}}>Delete</MenuItem>
           </Menu>
         </div>
         );
@@ -123,7 +134,9 @@ export const CustomerListResults = () => {
           },
         }}
       />
+      
     </div>
+    
   );
 };
 
