@@ -5,31 +5,29 @@ import {
   CardContent,
   TextField,
   InputAdornment,
-  SvgIcon, Typography
-} from '@mui/material';
-import { Search as SearchIcon } from '../../icons/search';
-import { Upload as UploadIcon } from '../../icons/upload';
-import { Download as DownloadIcon } from '../../icons/download';
+  SvgIcon,
+  Typography,
+} from "@mui/material";
+import { Search as SearchIcon } from "../../icons/search";
+import { Upload as UploadIcon } from "../../icons/upload";
+import { Download as DownloadIcon } from "../../icons/download";
 
 export const CustomerListToolbar = (props) => (
   <Box {...props}>
     <Box
       sx={{
-        alignItems: 'center',
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        m: -1
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        m: -1,
       }}
     >
-      <Typography
-        sx={{ m: 1 }}
-        variant="h4"
-      >
+      <Typography sx={{ m: 1 }} variant="h4">
         Customers
       </Typography>
       <Box sx={{ m: 1 }}>
-        <Button
+        {/* <Button
           startIcon={(<UploadIcon fontSize="small" />)}
           sx={{ mr: 1 }}
         >
@@ -40,12 +38,9 @@ export const CustomerListToolbar = (props) => (
           sx={{ mr: 1 }}
         >
           Export
-        </Button>
-        <Button
-          color="primary"
-          variant="contained"
-        >
-          Add Customers
+        </Button> */}
+        <Button color="primary" variant="contained">
+          Add New Room
         </Button>
       </Box>
     </Box>
@@ -58,14 +53,11 @@ export const CustomerListToolbar = (props) => (
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SvgIcon
-                      color="action"
-                      fontSize="small"
-                    >
+                    <SvgIcon color="action" fontSize="small">
                       <SearchIcon />
                     </SvgIcon>
                   </InputAdornment>
-                )
+                ),
               }}
               placeholder="Search customer"
               variant="outlined"
