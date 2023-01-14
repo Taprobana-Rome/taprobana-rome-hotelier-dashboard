@@ -33,7 +33,7 @@ const items = [
     title: "Rooms",
   },
   {
-    href: "/products",
+    href: "/reviews",
     icon: <ReviewsIcon fontSize="small" />,
     title: "Review",
   },
@@ -110,7 +110,7 @@ export const DashboardSidebar = (props) => {
                     width: 42,
                   }}
                 />
-                
+
               </a>
             </NextLink> */}
             <h2>TaprobanaRome</h2>
