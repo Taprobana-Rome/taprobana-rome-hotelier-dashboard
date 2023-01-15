@@ -28,12 +28,12 @@ const items = [
     title: "Dashboard",
   },
   {
-    href: "/customers",
+    href: "/rooms",
     icon: <BedroomChildIcon fontSize="small" />,
     title: "Rooms",
   },
   {
-    href: "/products",
+    href: "/reviews",
     icon: <ReviewsIcon fontSize="small" />,
     title: "Review",
   },

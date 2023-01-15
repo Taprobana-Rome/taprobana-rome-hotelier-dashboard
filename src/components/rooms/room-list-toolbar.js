@@ -12,8 +12,11 @@ import { Search as SearchIcon } from "../../icons/search";
 import { Upload as UploadIcon } from "../../icons/upload";
 import { Download as DownloadIcon } from "../../icons/download";
 
-export const CustomerListToolbar = (props) => (
+
+export const RoomListToolbar = (props) => (
+  
   <Box {...props}>
+    
     <Box
       sx={{
         alignItems: "center",
@@ -26,6 +29,7 @@ export const CustomerListToolbar = (props) => (
       <Typography sx={{ m: 1 }} variant="h4">
         Rooms
       </Typography>
+      
       <Box sx={{ m: 1 }}>
         {/* <Button
           startIcon={(<UploadIcon fontSize="small" />)}
@@ -39,11 +43,11 @@ export const CustomerListToolbar = (props) => (
         >
           Export
         </Button> */}
-        <Button color="primary" variant="contained">
+        <Button color="primary" variant="contained" href="/rooms/addNewRoom">
           Add New Room
         </Button>
       </Box>
     </Box>
-    
+ 
   </Box>
 );
