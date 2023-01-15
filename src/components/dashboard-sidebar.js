@@ -28,7 +28,7 @@ const items = [
     title: "Dashboard",
   },
   {
-    href: "/customers",
+    href: "/rooms",
     icon: <BedroomChildIcon fontSize="small" />,
     title: "Rooms",
   },

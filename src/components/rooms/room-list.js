@@ -7,7 +7,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DataGrid, GridToolbar, GridColumnMenu } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 
-export const ReviewListResults = () => {
+export const RoomListResults = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRow, setSelectedRow] = useState([]);
   const open = Boolean(anchorEl);
@@ -31,12 +31,12 @@ export const ReviewListResults = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleReply = (href) => {
-    router.push("/reviews/" + href);
+  const handleEdit = (href) => {
+    router.push("/rooms/edit/" + href);
     setAnchorEl(null);
   };
   const handleDelete = (href) => {
-    // router.push("/reviews/delete/" + href);
+    router.push("/rooms/delete/" + href);
     setAnchorEl(null);
   };
 
@@ -66,8 +66,8 @@ export const ReviewListResults = () => {
                 "aria-labelledby": "basic-button",
               }}
             >
-              <MenuItem onClick={() => handleReply(selectedRow.id)} sx={{ color: "green" }}>
-                Reply
+              <MenuItem onClick={() => handleEdit(selectedRow.id)} sx={{ color: "green" }}>
+                Edit
               </MenuItem>
               <MenuItem onClick={() => handleDelete(selectedRow.id)} sx={{ color: "red" }}>
                 Delete
