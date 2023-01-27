@@ -7,19 +7,40 @@ import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Facebook as FacebookIcon } from "../icons/facebook";
 import { Google as GoogleIcon } from "../icons/google";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Login = () => {
+  const [logindata, setlogindata] = useState([]);
+  console.log("dta", logindata);
+  // useEffect(()=>{
+  //    console.log("dta",logindata);
+  // },[])
+
+  const logins = (values) => {
+    console.log("log data",values);
+    const data = axios.post("http://localhost:5000/hotelier/login", values).then((res) => {
+      console.log(res.data);
+      Router.push("/").catch(console.error);
+      localStorage.setItem("token", res.data.token);
+    });
+  };
+
   const formik = useFormik({
     initialValues: {
-      email: "demo@devias.io",
-      password: "Password123",
+      email: "prineth@gmail.com",
+      password: "prineth",
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
       password: Yup.string().max(255).required("Password is required"),
     }),
-    onSubmit: () => {
-      Router.push("/").catch(console.error);
+    onSubmit: (values, actions) => {
+      console.log("values", values);
+      setlogindata(values);
+      logins(values);
+
+      //Router.push("/").catch(console.error);
     },
   });
 

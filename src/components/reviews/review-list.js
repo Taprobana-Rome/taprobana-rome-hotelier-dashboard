@@ -108,5 +108,3 @@ export const ReviewListResults = () => {
     </div>
   );
 };
-
-
