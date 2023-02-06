@@ -18,7 +18,7 @@ const Login = () => {
   // },[])
 
   const logins = (values) => {
-    console.log("log data",values);
+    console.log("log data", values);
     const data = axios.post("http://localhost:5000/hotelier/login", values).then((res) => {
       console.log(res.data);
       Router.push("/").catch(console.error);

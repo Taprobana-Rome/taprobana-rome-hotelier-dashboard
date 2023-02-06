@@ -14,8 +14,18 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import axios from "axios";
 
 const Register = () => {
+  const signin = (values) => {
+    console.log("log data", values);
+    const data = axios.post("http://localhost:5000/hotelier/hotel", values).then((res) => {
+      console.log(res);
+      //Router.push("/").catch(console.error);
+      //ocalStorage.setItem("token", res.data.token);
+    });
+  };
+
   const formik = useFormik({
     initialValues: {
       hotelName: "",
@@ -26,19 +36,33 @@ const Register = () => {
       businessRegNumber: "",
       password: "",
       policy: false,
+      image: "",
     },
     validationSchema: Yup.object({
       hotelName: Yup.string().max(255).required("Hotel name is required"),
       email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
-      address: Yup.string().max(255).required("Address is required"),
-      contact: Yup.number().min(10).required("Contact number is required"),
-      vat: Yup.string().max(255).required("Contact is required"),
-      businessRegNumber: Yup.string().max(255).required("Business Registration Number is required"),
+      //address: Yup.string().max(255).required("Address is required"),
+      //contact: Yup.number().min(10).required("Contact number is required"),
+      //vat: Yup.string().max(255).required("Contact is required"),
+      //businessRegNumber: Yup.string().max(255).required("Business Registration Number is required"),
       password: Yup.string().max(255).required("Password is required"),
-      policy: Yup.boolean().oneOf([true], "This field must be checked"),
+      //policy: Yup.boolean().oneOf([true], "This field must be checked"),
     }),
-    onSubmit: () => {
-      Router.push("/").catch(console.error);
+    onSubmit: (values, actions) => {
+      console.log(values);
+
+      // let formData = new FormData();
+      //formData.append("hotelName", values)
+      let data = new FormData();
+      data.append("image", values.image);
+      data.append("name", values.hotelName);
+      data.append("address", values.address);
+      data.append("email", values.email);
+      data.append("password", values.password);
+
+      signin(data);
+
+      Router.push("/");
     },
   });
 
@@ -56,7 +80,7 @@ const Register = () => {
           minHeight: "100%",
         }}
       >
-        <Container maxWidth="sm" style={{ marginTop: '50px', marginBottom: '50px' }}>
+        <Container maxWidth="sm" style={{ marginTop: "50px", marginBottom: "50px" }}>
           <NextLink href="/" passHref>
             <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>
               Hotelier Dashboard
@@ -170,6 +194,28 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
+            <input
+              type="file"
+              name="files"
+              multiple
+              onChange={(event) => {
+                formik.setFieldValue("image", event.target.files[0]);
+              }}
+              //value={formik.values.image}
+            />
+            {/* <input
+                onChange={(e) => setFile(e.target.files)}
+                type="file"
+                accept="image/*"
+                name="file"
+                multiple
+              ></input> */}
+            {/* <input
+                value={caption}
+                //onChange={(e) => setCaption(e.target.value)}
+                type="text"
+                placeholder="Caption"
+              ></input> */}
             <Box
               sx={{
                 alignItems: "center",
