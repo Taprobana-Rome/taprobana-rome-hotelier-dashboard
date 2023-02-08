@@ -47,26 +47,6 @@ const items = [
     icon: <CollectionsIcon fontSize="small" />,
     title: "Gallery",
   },
-  {
-    href: "/login",
-    icon: <LockIcon fontSize="small" />,
-    title: "Login",
-  },
-  {
-    href: "/features",
-    icon: <ListAltIcon fontSize="small" />,
-    title: "facility",
-  },
-  {
-    href: "/register",
-    icon: <UserAddIcon fontSize="small" />,
-    title: "Register",
-  },
-  {
-    href: "/404",
-    icon: <XCircleIcon fontSize="small" />,
-    title: "Error",
-  },
 ];
 
 export const DashboardSidebar = (props) => {
