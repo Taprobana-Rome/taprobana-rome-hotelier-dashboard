@@ -207,7 +207,6 @@ const Page = () => {
                       margin="normal"
                       name="isBooking"
                       select
-                      helperText="Please select room status"
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       value={formik.values.isBooking}
@@ -245,7 +244,6 @@ const Page = () => {
                   margin="normal"
                   name="sqft"
                   type="number"
-                  helperText="Please enter room square feet"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={formik.values.sqft}

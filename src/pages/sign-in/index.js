@@ -29,7 +29,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Sign in | Material Kit</title>
+        <title>Sign in | Taprobanarome Hotelier</title>
       </Head>
       <Box
         component="main"
