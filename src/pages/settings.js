@@ -8,7 +8,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Settings | Material Kit
+        Settings | Taprobanarome Hotelier
       </title>
     </Head>
     <Box
