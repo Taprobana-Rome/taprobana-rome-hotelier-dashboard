@@ -8,8 +8,13 @@ import {
   Button,
   Checkbox,
   Container,
+  FormControl,
   FormHelperText,
+  Grid,
+  InputLabel,
   Link,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -21,6 +26,7 @@ const Register = () => {
     console.log("log data", values);
     const data = axios.post("http://localhost:5000/hotelier/hotel", values).then((res) => {
       console.log(res);
+      //Router.push("/verified.html");
       //Router.push("/").catch(console.error);
       //ocalStorage.setItem("token", res.data.token);
     });
@@ -32,11 +38,9 @@ const Register = () => {
       email: "",
       address: "",
       contact: "",
-      vat: "",
-      businessRegNumber: "",
       password: "",
-      policy: false,
       image: "",
+      hotel_type: "",
     },
     validationSchema: Yup.object({
       hotelName: Yup.string().max(255).required("Hotel name is required"),
@@ -59,10 +63,11 @@ const Register = () => {
       data.append("address", values.address);
       data.append("email", values.email);
       data.append("password", values.password);
+      data.append("hotel_type", values.hotel_type);
 
       signin(data);
 
-      Router.push("/");
+      
     },
   });
 
@@ -144,30 +149,31 @@ const Register = () => {
               value={formik.values.contact}
               variant="outlined"
             />
-            <TextField
-              error={Boolean(formik.touched.vat && formik.errors.vat)}
-              fullWidth
-              helperText={formik.touched.vat && formik.errors.vat}
-              label="Vat number"
-              margin="normal"
-              name="vat"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.vat}
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(formik.touched.businessRegNumber && formik.errors.businessRegNumber)}
-              fullWidth
-              helperText={formik.touched.businessRegNumber && formik.errors.businessRegNumber}
-              label="Business Registration Number"
-              margin="normal"
-              name="businessRegNumber"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.businessRegNumber}
-              variant="outlined"
-            />
+            <Grid mt={2} mb={1}>
+              <FormControl fullWidth>
+                <InputLabel mt={5} id="demo-simple-select-label">
+                  Type
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="hotel_type"
+                  //value={age}
+                  label="hotel type"
+                  //onChange={handleChange}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.hotel_type}
+                >
+                  <MenuItem value={"Hotel"}>Hotel</MenuItem>
+                  <MenuItem value={"Resort"}>Resort</MenuItem>
+                  <MenuItem value={"Villa"}>Villa</MenuItem>
+                  <MenuItem value={"Apartment"}>Apartment</MenuItem>
+                  <MenuItem value={"Glamping"}>Glamping</MenuItem>
+                  <MenuItem value={"Luxury Hostels"}>Luxury Hostels</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
             <TextField
               error={Boolean(formik.touched.password && formik.errors.password)}
               fullWidth
@@ -181,7 +187,7 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
-            <TextField
+            {/* <TextField
               error={Boolean(formik.touched.password && formik.errors.password)}
               fullWidth
               helperText={formik.touched.password && formik.errors.password}
@@ -193,7 +199,7 @@ const Register = () => {
               type="password"
               value={formik.values.password}
               variant="outlined"
-            />
+            /> */}
             <input
               type="file"
               name="files"
