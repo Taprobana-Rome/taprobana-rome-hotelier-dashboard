@@ -28,12 +28,12 @@ const items = [
     title: "Dashboard",
   },
   {
-    href: "/customers",
+    href: "/rooms",
     icon: <BedroomChildIcon fontSize="small" />,
     title: "Rooms",
   },
   {
-    href: "/products",
+    href: "/reviews",
     icon: <ReviewsIcon fontSize="small" />,
     title: "Review",
   },
@@ -46,26 +46,6 @@ const items = [
     href: "/settings",
     icon: <CollectionsIcon fontSize="small" />,
     title: "Gallery",
-  },
-  {
-    href: "/login",
-    icon: <LockIcon fontSize="small" />,
-    title: "Login",
-  },
-  {
-    href: "/features",
-    icon: <ListAltIcon fontSize="small" />,
-    title: "facility",
-  },
-  {
-    href: "/register",
-    icon: <UserAddIcon fontSize="small" />,
-    title: "Register",
-  },
-  {
-    href: "/404",
-    icon: <XCircleIcon fontSize="small" />,
-    title: "Error",
   },
 ];
 
@@ -110,7 +90,7 @@ export const DashboardSidebar = (props) => {
                     width: 42,
                   }}
                 />
-                
+
               </a>
             </NextLink> */}
             <h2>TaprobanaRome</h2>

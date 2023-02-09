@@ -3,30 +3,53 @@ import NextLink from "next/link";
 import Router from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Facebook as FacebookIcon } from "../icons/facebook";
-import { Google as GoogleIcon } from "../icons/google";
+
+import { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
+  const logins = (values) => {
+    console.log(values);
+    axios
+      .post("http://localhost:5000/hotelier/login", values)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.status === "SUCCESS") {
+          Router.push("/");
+        } else {
+          alert("Plese verify your email!");
+          console.log("error=>", res.data);
+        }
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("name", res.data.name);
+        localStorage.setItem("id", res.data._id);
+        localStorage.setItem("email", res.data.email);
+      })
+      .catch((err) => {
+        console.log("error=>", err);
+      });
+  };
+
   const formik = useFormik({
     initialValues: {
-      email: "demo@devias.io",
-      password: "Password123",
+      email: "",
+      password: "",
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
       password: Yup.string().max(255).required("Password is required"),
     }),
-    onSubmit: () => {
-      Router.push("/").catch(console.error);
+    onSubmit: (values) => {
+      logins(values);
     },
   });
 
   return (
     <>
       <Head>
-        <title>Login | Material Kit</title>
+        <title>Login | Taprobanarome Hotelier</title>
       </Head>
       <Box
         component="main"
@@ -38,11 +61,6 @@ const Login = () => {
         }}
       >
         <Container maxWidth="sm">
-          <NextLink href="/" passHref>
-            <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>
-              Hotelier Dashboard
-            </Button>
-          </NextLink>
           <form onSubmit={formik.handleSubmit}>
             <Box
               sx={{
@@ -54,6 +72,7 @@ const Login = () => {
                 login with email address
               </Typography>
             </Box>
+            {emailError && <Alert severity="error">{emailError}</Alert>}
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
@@ -81,14 +100,7 @@ const Login = () => {
               variant="outlined"
             />
             <Box sx={{ py: 2 }}>
-              <Button
-                color="primary"
-                disabled={formik.isSubmitting}
-                fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-              >
+              <Button color="primary" fullWidth size="large" type="submit" variant="contained">
                 Sign In Now
               </Button>
             </Box>

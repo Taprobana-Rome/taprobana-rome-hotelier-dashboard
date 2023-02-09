@@ -10,6 +10,7 @@ import { createEmotionCache } from '../utils/create-emotion-cache';
 import { registerChartJs } from '../utils/register-chart-js';
 import { theme } from '../theme';
 
+
 registerChartJs();
 
 const clientSideEmotionCache = createEmotionCache();
@@ -23,7 +24,7 @@ const App = (props) => {
     <CacheProvider value={emotionCache}>
       <Head>
         <title>
-          Material Kit Pro
+          Taprobanarome Hotelier
         </title>
         <meta
           name="viewport"

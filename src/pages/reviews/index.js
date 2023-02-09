@@ -1,14 +1,13 @@
 import Head from "next/head";
 import { Box, Container } from "@mui/material";
-import { CustomerListResults } from "../components/customer/customer-list-results";
-import { CustomerListToolbar } from "../components/customer/customer-list-toolbar";
-import { DashboardLayout } from "../components/dashboard-layout";
-import { customers } from "../__mocks__/customers";
+import { ReviewListToolbar } from "../../components/reviews/review-list-toolbar";
+import { ReviewListResults } from "../../components/reviews/review-list";
+import { DashboardLayout } from "../../components/dashboard-layout";
 
 const Page = () => (
   <>
     <Head>
-      <title>Home</title>
+      <title>Reviews | Taprobanarome Hotelier</title>
     </Head>
     <Box
       component="main"
@@ -18,9 +17,9 @@ const Page = () => (
       }}
     >
       <Container maxWidth={false}>
-        <CustomerListToolbar />
+        <ReviewListToolbar />
         <Box sx={{ mt: 3 }}>
-          <CustomerListResults customers={customers} />
+          <ReviewListResults />
         </Box>
       </Container>
     </Box>
