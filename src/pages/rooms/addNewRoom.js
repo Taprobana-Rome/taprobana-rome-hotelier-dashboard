@@ -16,10 +16,13 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import axios from "axios";
 import * as Yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Page = () => {
   const route = useRouter();
   const roomId = route.query.roomId;
+  const hotelId = localStorage.getItem("id");
 
   const [file, setFile] = useState();
   const [caption, setCaption] = useState("");
@@ -29,38 +32,52 @@ const Page = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    console.log(e.currentTarget.files);
-    const files = e.currentTarget.files;
-    formData.append("images", files);
+    // console.log(e.currentTarget.files);
+    // const files = e.currentTarget.files;
+    // formData.append("images", files);
 
-    await axios.post("http://localhost:5000/room/upload", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    // await axios.post("http://localhost:5000/room/upload", formData, {
+    //   headers: { "Content-Type": "multipart/form-data" },
+    // });
   };
 
-  const getImage = async () => {
-    await axios.get("http://localhost:5000/hotelier/63c50e074e4be311cbc8a86f").then((response) => {
-      setImage(response.data.images);
-    });
-  };
+  // const getImage = async () => {
+  //   await axios.get("http://localhost:5000/hotelier/63c50e074e4be311cbc8a86f").then((response) => {
+  //     setImage(response.data.images);
+  //   });
+  // };
 
-  const createRoom = async () => {
-    const roomData = {
-      type: "adoooooooooo",
-      price: 10000,
-      description: "yyyyyy",
-      isBooking: true,
-      hotel: "xxxxxx",
-      capacity: 10,
-      bed_count: 22,
-      bathroom: "xxxxxxxx",
-      discount: { discount_msg: "yyyyyy", discount_amount: 10 },
-    };
+  const notifySuccess = () =>
+    toast.success("Room Added Successfuly", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const notifyError = () =>
+    toast.error("Room Added Error", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const createRoom = async (values) => {
     await axios
-      .post("http://localhost:5000/room/room/63c7abe4f88c45616231628a", roomData)
+      .post("http://localhost:5000/room/room/", values)
       .then((response) => {
         console.log("roomId", response.data._id);
-      });
+      })
+      .catch((err) => console.log(err));
   };
 
   const formik = useFormik({
@@ -72,18 +89,24 @@ const Page = () => {
       capacity: 0,
       bed_count: 0,
       sqft: 0,
+      hotel: hotelId,
     },
     validationSchema: Yup.object({
       type: Yup.string().max(255).required("Room type is required"),
-      price: Yup.number().max(255).required("price is required"),
-      description: Yup.string().max(255).required("Description is required"),
+      price: Yup.number().nullable(false).required("price is required"),
+      description: Yup.string().max(1000).required("Description is required"),
       isBooking: Yup.bool(),
       capacity: Yup.number().required("capacity is required"),
       bed_count: Yup.number().required("Bed count is required"),
-      bathroom: Yup.string().max(255).required("Bathroom type is required"),
     }),
-    onSubmit: () => {
-      Router.push("/").catch(console.error);
+    onSubmit: (values, action) => {
+      createRoom(values)
+        .then(notifySuccess())
+        .catch((err) => notifyError());
+
+      console.log(values);
+
+      // Router.push("/").catch(console.error);
     },
   });
 
@@ -110,9 +133,9 @@ const Page = () => {
           <Box sx={{ mt: 3 }}>
             <h1>Add new Room</h1>
 
-            <form onSubmit={submit} encType="multipart/form-data">
-              <input type="file" name="file" multiple />
-              {/* <input
+            {/* <form onSubmit={submit} encType="multipart/form-data"> */}
+            {/* <input type="file" name="file" multiple /> */}
+            {/* <input
                 onChange={(e) => setFile(e.target.files)}
                 type="file"
                 accept="image/*"
@@ -120,7 +143,7 @@ const Page = () => {
                 multiple
               ></input> */}
 
-              <input
+            {/* <input
                 value={caption}
                 onChange={(e) => setCaption(e.target.value)}
                 type="text"
@@ -135,9 +158,9 @@ const Page = () => {
 
             <button onClick={() => createRoom()} type="submit">
               Create room
-            </button>
+            </button> */}
 
-            <img src={image}></img>
+            {/* <img src={image}></img> */}
 
             {/* ============================== */}
 
@@ -236,29 +259,41 @@ const Page = () => {
                   </Grid>
                 </Grid>
 
-                <TextField
-                  error={Boolean(formik.touched.sqft && formik.errors.sqft)}
-                  fullWidth
-                  helperText={formik.touched.sqft && formik.errors.sqft}
-                  label="sqft"
-                  margin="normal"
-                  name="sqft"
-                  type="number"
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={formik.values.sqft}
-                  variant="outlined"
-                />
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      error={Boolean(formik.touched.capacity && formik.errors.capacity)}
+                      fullWidth
+                      helperText={formik.touched.capacity && formik.errors.capacity}
+                      label="capacity"
+                      margin="normal"
+                      name="capacity"
+                      type="number"
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={formik.values.capacity}
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      error={Boolean(formik.touched.sqft && formik.errors.sqft)}
+                      fullWidth
+                      helperText={formik.touched.sqft && formik.errors.sqft}
+                      label="sqft"
+                      margin="normal"
+                      name="sqft"
+                      type="number"
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={formik.values.sqft}
+                      variant="outlined"
+                    />
+                  </Grid>
+                </Grid>
 
-                <Button
-                  color="primary"
-                  disabled={formik.isSubmitting}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                >
-                  Create Room
+                <Button color="primary" fullWidth size="large" type="submit" variant="contained">
+                  Add new room
                 </Button>
               </form>
             </Box>
@@ -267,6 +302,7 @@ const Page = () => {
           </Box>
         </Container>
       </Box>
+      <ToastContainer />
     </>
   );
 };
