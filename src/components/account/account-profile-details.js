@@ -1,5 +1,13 @@
 import { useState } from "react";
 import * as Yup from "yup";
+import { useTheme } from "@mui/material/styles";
+
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Chip from "@mui/material/Chip";
 import {
   Box,
   Button,
@@ -9,6 +17,7 @@ import {
   Divider,
   Grid,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 
@@ -27,7 +36,50 @@ const states = [
   },
 ];
 
+const names = [
+  "Parking",
+  "Pool",
+  "Bar",
+  "Wi-Fi",
+  "Kids pool",
+  "24 hours room services",
+  "Laundry services",
+];
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
 export const AccountProfileDetails = (props) => {
+  const theme = useTheme();
+  const [personName, setPersonName] = useState([]);
+
+  const handleChangeone = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -40,6 +92,7 @@ export const AccountProfileDetails = (props) => {
       province: "",
       country: "",
       map: "",
+      facility: [],
     },
     validationSchema: Yup.object({
       //hotelName: Yup.string().max(255).required("Hotel name is required"),
@@ -52,7 +105,7 @@ export const AccountProfileDetails = (props) => {
       //policy: Yup.boolean().oneOf([true], "This field must be checked"),
     }),
     onSubmit: (values, actions) => {
-      console.log(values);
+      console.log({ values });
 
       // let formData = new FormData();
       //formData.append("hotelName", values)
@@ -83,6 +136,9 @@ export const AccountProfileDetails = (props) => {
 
         <CardContent>
           <Grid container spacing={3}>
+            <Grid item md={12} xs={12}>
+              <Typography variant="h6">Main Details</Typography>
+            </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
@@ -159,6 +215,9 @@ export const AccountProfileDetails = (props) => {
                 value={formik.values.map}
               />
             </Grid>
+            <Grid item md={12} xs={12}>
+              <Typography variant="h6">Hotel Facilities</Typography>
+            </Grid>
             {/* <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
@@ -176,6 +235,73 @@ export const AccountProfileDetails = (props) => {
                 ))}
               </TextField>
             </Grid> */}
+            <Grid item md={12} xs={12}>
+              <FormControl sx={{ width: "100%" }}>
+                <InputLabel id="Facilities">Facilities</InputLabel>
+                <Select
+                  labelId="Facilities"
+                  id="Facilities"
+                  multiple
+                  name="facility"
+                  //value={personName}
+                  //onChange={handleChangeone}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.facility}
+                  input={<OutlinedInput id="select-multiple-chip" label="Facilities" />}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {names.map((name) => (
+                    <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item md={12} xs={12}>
+              <Typography variant="h6">Hotel Facilities</Typography>
+            </Grid>
+
+            <Grid item md={12} xs={12}>
+              <FormControl sx={{ width: "100%" }}>
+                <InputLabel id="Facilities">Facilities</InputLabel>
+                <Select
+                  labelId="Facilities"
+                  id="Facilities"
+                  multiple
+                  name="facility"
+                  //value={personName}
+                  //onChange={handleChangeone}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.facility}
+                  input={<OutlinedInput id="select-multiple-chip" label="Facilities" />}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {names.map((name) => (
+                    <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
           </Grid>
         </CardContent>
         <Divider />
@@ -186,7 +312,7 @@ export const AccountProfileDetails = (props) => {
             p: 2,
           }}
         >
-          <Button color="primary" variant="contained">
+          <Button type="submit" color="primary" variant="contained">
             Save details
           </Button>
         </Box>
