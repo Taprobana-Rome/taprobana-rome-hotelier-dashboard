@@ -72,7 +72,7 @@ const Login = () => {
                 login with email address
               </Typography>
             </Box>
-            {emailError && <Alert severity="error">{emailError}</Alert>}
+            {/* {emailError && <Alert severity="error">{emailError}</Alert>} */}
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
