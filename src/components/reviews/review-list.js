@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -6,22 +6,46 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DataGrid, GridToolbar, GridColumnMenu } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export const ReviewListResults = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRow, setSelectedRow] = useState([]);
+  const [tableData, setTableData] = useState([]);
   const open = Boolean(anchorEl);
   const router = useRouter();
+  const hotelId = localStorage.getItem("id");
 
-  var rows = [
-    { id: 1, col1: "Hello", col2: "World" },
-    { id: 2, col1: "MUI", col2: "is Amazing" },
+  // console.log(tableData[2].createdAt);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/review/" + hotelId);
+        setTableData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 80 },
+    { field: "review", headerName: "Review", width: 200 },
+    { field: "reply", headerName: "Reply", width: 200 },
+    { field: "createdAt", headerName: "Created at", width: 150 },
   ];
-  var columns = [
-    { field: "id", headerName: "ID", width: 50 },
-    { field: "col1", headerName: "Column 1", width: 150 },
-    { field: "col2", headerName: "Column 2", width: 150 },
-  ];
+
+  const trim = tableData?.map((data) => {
+    return {
+      id: data._id,
+      review: data.review,
+      reply: data.reply,
+      createdAt: data.createdAt,
+    };
+  });
 
   // menu start
   const handleClick = (event, rowData) => {
@@ -83,7 +107,7 @@ export const ReviewListResults = () => {
   return (
     <div style={{ height: 800, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        rows={trim}
         columns={actionColumn.concat(columns)}
         components={{
           Toolbar: GridToolbar,
