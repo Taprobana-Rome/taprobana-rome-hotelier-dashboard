@@ -3,7 +3,6 @@ import Router from 'next/router';
 import PropTypes from 'prop-types';
 import { Box, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 import { AuthContext } from '../contexts/auth-context';
-import { auth, ENABLE_AUTH } from '../lib/auth';
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
