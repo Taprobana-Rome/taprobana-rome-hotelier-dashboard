@@ -6,16 +6,16 @@ import {
   CardActions,
   CardContent,
   Divider,
-  Typography
-} from '@mui/material';
+  Typography,
+} from "@mui/material";
 
 const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  city: 'Los Angeles',
-  country: 'USA',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-  timezone: 'GTM-7'
+  avatar: "/static/images/avatars/avatar_6.png",
+  city: "Los Angeles",
+  country: "USA",
+  jobTitle: "Senior Developer",
+  name: "Katarina",
+  timezone: "GTM-7",
 };
 
 export const AccountProfile = (props) => (
@@ -23,9 +23,9 @@ export const AccountProfile = (props) => (
     <CardContent>
       <Box
         sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column'
+          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <Avatar
@@ -33,38 +33,30 @@ export const AccountProfile = (props) => (
           sx={{
             height: 64,
             mb: 2,
-            width: 64
+            width: 64,
           }}
         />
         <Typography
+          textAlign={"center"}
+          fontWeight={"bold"}
           color="textPrimary"
           gutterBottom
-          variant="h5"
+          variant="h7"
         >
           {user.name}
         </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
+        {/* <Typography color="textSecondary" variant="body2" textAlign={"center"}>
           {`${user.city} ${user.country}`}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
+        </Typography> */}
+        {/* <Typography color="textSecondary" variant="body2">
           {user.timezone}
-        </Typography>
+        </Typography> */}
       </Box>
     </CardContent>
     <Divider />
     <CardActions>
-      <Button
-        color="primary"
-        fullWidth
-        variant="text"
-      >
-        Upload picture
+      <Button color="primary" fullWidth variant="text">
+        Upload
       </Button>
     </CardActions>
   </Card>
