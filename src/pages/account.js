@@ -31,16 +31,16 @@ const Page = () => (
         >
           <Grid
             item
-            lg={4}
-            md={6}
+            lg={2}
+            md={2}
             xs={12}
           >
             <AccountProfile />
           </Grid>
           <Grid
             item
-            lg={8}
-            md={6}
+            lg={10}
+            md={10}
             xs={12}
           >
             <AccountProfileDetails />
