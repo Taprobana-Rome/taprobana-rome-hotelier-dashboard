@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -6,24 +6,71 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DataGrid, GridToolbar, GridColumnMenu } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
-
-
+import axios from "axios";
 
 export const RoomListResults = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRow, setSelectedRow] = useState([]);
+  const [tableData, setTableData] = useState([]);
   const open = Boolean(anchorEl);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/room/hotel/63d6416ebb4604f2bfbe952d");
+        setTableData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 80 },
+    { field: "type", headerName: "Type", width: 150 },
+    { field: "price", headerName: "Price", width: 100 },
+    { field: "description", headerName: "Description", width: 200 },   
+    { field: "capacity", headerName: "Capacity", width: 80 },
+    { field: "bed_count", headerName: "Bed", width: 70 },
+    {
+      field: "isBooking",
+      headerName: "Booking status",
+      width: 150,
+      renderCell: (params) => {
+        return params.isBooking ? (
+          <div className="">✔ Booked</div>
+        ) : (
+          <div className="">❌ Not Booked</div>
+        );
+      },
+    },
+    { field: "created_at", headerName: "Created_at", width: 150 },
+  ];
 
   var rows = [
     { id: 1, col1: "Hello", col2: "World" },
     { id: 2, col1: "MUI", col2: "is Amazing" },
   ];
-  var columns = [
-    { field: "id", headerName: "ID", width: 50 },
-    { field: "col1", headerName: "Column 1", width: 150 },
-    { field: "col2", headerName: "Column 2", width: 150 },
-  ];
+
+  const trim = tableData?.map((data) => {
+    return {
+      id: data._id,
+      type: data.type,
+      price: data.price,
+      description: data.description,
+      capacity: data.capacity,
+      bed_count: data.bed_count,
+      created_at: data.created_at,
+    };
+  });
+  // var columns = [
+  //   { field: "id", headerName: "ID", width: 50 },
+  //   { field: "col1", headerName: "Column 1", width: 150 },
+  //   { field: "col2", headerName: "Column 2", width: 150 },
+  // ];
 
   // menu start
   const handleClick = (event, rowData) => {
@@ -85,7 +132,7 @@ export const RoomListResults = () => {
   return (
     <div style={{ height: 800, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        rows={trim}
         columns={actionColumn.concat(columns)}
         components={{
           Toolbar: GridToolbar,
@@ -110,5 +157,3 @@ export const RoomListResults = () => {
     </div>
   );
 };
-
-
