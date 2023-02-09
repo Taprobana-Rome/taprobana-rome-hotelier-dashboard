@@ -15,10 +15,14 @@ export const RoomListResults = () => {
   const open = Boolean(anchorEl);
   const router = useRouter();
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/room/hotel/63d6416ebb4604f2bfbe952d");
+        const response = await axios.get(
+          "http://localhost:5000/room/hotel/"+ localStorage.getItem("id"),
+          localStorage.getItem("id")
+        );
         setTableData(response.data);
       } catch (error) {
         console.error(error);
@@ -32,7 +36,7 @@ export const RoomListResults = () => {
     { field: "id", headerName: "ID", width: 80 },
     { field: "type", headerName: "Type", width: 150 },
     { field: "price", headerName: "Price", width: 100 },
-    { field: "description", headerName: "Description", width: 200 },   
+    { field: "description", headerName: "Description", width: 200 },
     { field: "capacity", headerName: "Capacity", width: 80 },
     { field: "bed_count", headerName: "Bed", width: 70 },
     {
@@ -49,7 +53,6 @@ export const RoomListResults = () => {
     },
     { field: "created_at", headerName: "Created_at", width: 150 },
   ];
-
 
   const trim = tableData?.map((data) => {
     return {
