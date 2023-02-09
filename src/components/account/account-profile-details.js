@@ -86,13 +86,14 @@ export const AccountProfileDetails = (props) => {
       email: "",
       address: "",
       phone: "",
-      password: "",
-      descryption: "",
+      
+      description: "",
       state: "",
       province: "",
       country: "",
       map: "",
       facility: [],
+      highlights: [],
     },
     validationSchema: Yup.object({
       //hotelName: Yup.string().max(255).required("Hotel name is required"),
@@ -165,7 +166,11 @@ export const AccountProfileDetails = (props) => {
               />
             </Grid>
             <Grid item md={6} xs={12}>
-              <TextField fullWidth label="Email Address" name="email" required variant="outlined" />
+              <TextField fullWidth label="Email Address"
+               onBlur={formik.handleBlur}
+               onChange={formik.handleChange}
+               value={formik.values.email}
+              name="email" required variant="outlined" />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
@@ -194,6 +199,18 @@ export const AccountProfileDetails = (props) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
+                label="province"
+                name="province"
+                required
+                variant="outlined"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.province}
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <TextField
+                fullWidth
                 label="state"
                 name="state"
                 required
@@ -214,6 +231,21 @@ export const AccountProfileDetails = (props) => {
                 onChange={formik.handleChange}
                 value={formik.values.map}
               />
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <TextField
+                id="outlined-multiline-static"
+                label="description"
+                name="description"
+                multiline
+                rows={4}
+                defaultValue="Default Value"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.description}
+                fullWidth
+              />
+              
             </Grid>
             <Grid item md={12} xs={12}>
               <Typography variant="h6">Hotel Facilities</Typography>
@@ -268,22 +300,22 @@ export const AccountProfileDetails = (props) => {
             </Grid>
 
             <Grid item md={12} xs={12}>
-              <Typography variant="h6">Hotel Facilities</Typography>
+              <Typography variant="h6">Highlights</Typography>
             </Grid>
 
             <Grid item md={12} xs={12}>
               <FormControl sx={{ width: "100%" }}>
-                <InputLabel id="Facilities">Facilities</InputLabel>
+                <InputLabel id="Facilities">Highlights</InputLabel>
                 <Select
-                  labelId="Facilities"
-                  id="Facilities"
+                  labelId="highlights"
+                  id="highlights"
                   multiple
-                  name="facility"
+                  name="highlights"
                   //value={personName}
                   //onChange={handleChangeone}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  value={formik.values.facility}
+                  value={formik.values.highlights}
                   input={<OutlinedInput id="select-multiple-chip" label="Facilities" />}
                   renderValue={(selected) => (
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
