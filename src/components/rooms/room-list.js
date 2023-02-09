@@ -50,10 +50,6 @@ export const RoomListResults = () => {
     { field: "created_at", headerName: "Created_at", width: 150 },
   ];
 
-  var rows = [
-    { id: 1, col1: "Hello", col2: "World" },
-    { id: 2, col1: "MUI", col2: "is Amazing" },
-  ];
 
   const trim = tableData?.map((data) => {
     return {

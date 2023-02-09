@@ -59,7 +59,7 @@ const Page = () => {
     await axios
       .post("http://localhost:5000/room/room/63c7abe4f88c45616231628a", roomData)
       .then((response) => {
-        localStorage.setItem("roomId", response.data._id);
+        console.log("roomId", response.data._id);
       });
   };
 
