@@ -5,57 +5,44 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Alert, Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Facebook as FacebookIcon } from "../icons/facebook";
-import { Google as GoogleIcon } from "../icons/google";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import axios from "axios";
 
 const Login = () => {
-  const [logindata, setlogindata] = useState();
-  console.log("dta", logindata);
-  // useEffect(()=>{
-  //    console.log("dta",logindata);
-  // },[])
-
-  const [emailError, setEmailError] = useState("");
-
   const logins = (values) => {
-    console.log("log data", values);
-    
-    try {
-      const data = axios.post("http://localhost:5000/hotelier/login", values);
-    } catch (error) {
-      console.log(error);
-    }
-
-  //   const data = axios.post("http://localhost:5000/hotelier/login", values).then((res) => {
-  //     console.log({ res });
-  //     // if(res.data.error){
-  //     //   // setEmailError(res.data.error);
-
-  //     // }else{
-  //     //   console.log(res.data);
-  //     //   //Router.push("/").catch(console.error);
-  //     //   localStorage.setItem("token", res.data.token);
-  //     // }
-  //   });
+    console.log(values);
+    axios
+      .post("http://localhost:5000/hotelier/login", values)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.status === "SUCCESS") {
+          Router.push("/");
+        } else {
+          alert("Plese verify your email!");
+          console.log("error=>", res.data);
+        }
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("name", res.data.name);
+        localStorage.setItem("id", res.data._id);
+        localStorage.setItem("email", res.data.email);
+      })
+      .catch((err) => {
+        console.log("error=>", err);
+      });
   };
 
   const formik = useFormik({
     initialValues: {
-      email: "prineth@gmail.com",
-      password: "prineth",
+      email: "",
+      password: "",
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
       password: Yup.string().max(255).required("Password is required"),
     }),
-    onSubmit: (values, actions) => {
-      console.log("values", values);
-      setlogindata(values);
+    onSubmit: (values) => {
       logins(values);
-
-      //Router.push("/").catch(console.error);
     },
   });
 
@@ -74,11 +61,6 @@ const Login = () => {
         }}
       >
         <Container maxWidth="sm">
-          <NextLink href="/" passHref>
-            <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>
-              Hotelier Dashboard
-            </Button>
-          </NextLink>
           <form onSubmit={formik.handleSubmit}>
             <Box
               sx={{
@@ -118,14 +100,7 @@ const Login = () => {
               variant="outlined"
             />
             <Box sx={{ py: 2 }}>
-              <Button
-                color="primary"
-                disabled={formik.isSubmitting}
-                fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-              >
+              <Button color="primary" fullWidth size="large" type="submit" variant="contained">
                 Sign In Now
               </Button>
             </Box>
