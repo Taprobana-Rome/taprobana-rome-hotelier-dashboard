@@ -3,7 +3,7 @@ import NextLink from "next/link";
 import Router from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { useState } from "react";
@@ -72,6 +72,7 @@ const Login = () => {
                 login with email address
               </Typography>
             </Box>
+            {emailError && <Alert severity="error">{emailError}</Alert>}
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
