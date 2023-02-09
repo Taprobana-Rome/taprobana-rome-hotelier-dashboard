@@ -5,20 +5,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Facebook as FacebookIcon } from "../icons/facebook";
-import { Google as GoogleIcon } from "../icons/google";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import axios from "axios";
 
 const Login = () => {
-  const [logindata, setlogindata] = useState([]);
-  console.log("dta", logindata);
-  // useEffect(()=>{
-  //    console.log("dta",logindata);
-  // },[])
-
   const logins = (values) => {
-    console.log("log data",values);
+    console.log("log data", values);
     const data = axios.post("http://localhost:5000/hotelier/login", values).then((res) => {
       console.log(res.data);
       Router.push("/").catch(console.error);
