@@ -3,7 +3,7 @@ import NextLink from "next/link";
 import Router from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Facebook as FacebookIcon } from "../icons/facebook";
 import { Google as GoogleIcon } from "../icons/google";
@@ -11,19 +11,34 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const Login = () => {
-  const [logindata, setlogindata] = useState([]);
+  const [logindata, setlogindata] = useState();
   console.log("dta", logindata);
   // useEffect(()=>{
   //    console.log("dta",logindata);
   // },[])
 
+  const [emailError, setEmailError] = useState("");
+
   const logins = (values) => {
-    console.log("log data",values);
-    const data = axios.post("http://localhost:5000/hotelier/login", values).then((res) => {
-      console.log(res.data);
-      Router.push("/").catch(console.error);
-      localStorage.setItem("token", res.data.token);
-    });
+    console.log("log data", values);
+    
+    try {
+      const data = axios.post("http://localhost:5000/hotelier/login", values);
+    } catch (error) {
+      console.log(error);
+    }
+
+  //   const data = axios.post("http://localhost:5000/hotelier/login", values).then((res) => {
+  //     console.log({ res });
+  //     // if(res.data.error){
+  //     //   // setEmailError(res.data.error);
+
+  //     // }else{
+  //     //   console.log(res.data);
+  //     //   //Router.push("/").catch(console.error);
+  //     //   localStorage.setItem("token", res.data.token);
+  //     // }
+  //   });
   };
 
   const formik = useFormik({
@@ -75,6 +90,7 @@ const Login = () => {
                 login with email address
               </Typography>
             </Box>
+            {emailError && <Alert severity="error">{emailError}</Alert>}
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
