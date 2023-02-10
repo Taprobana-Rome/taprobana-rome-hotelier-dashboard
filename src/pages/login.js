@@ -13,7 +13,7 @@ const Login = () => {
   const logins = (values) => {
     console.log(values);
     axios
-      .post("http://localhost:5000/hotelier/login", values)
+      .post("https://taprobanarome.azurewebsites.net/hotelier/login", values)
       .then((res) => {
         console.log(res.data);
         if (res.data.status === "SUCCESS") {

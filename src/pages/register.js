@@ -24,7 +24,7 @@ import axios from "axios";
 const Register = () => {
   const signin = (values) => {
     console.log("log data", values);
-    const data = axios.post("http://localhost:5000/hotelier/hotel", values).then((res) => {
+    const data = axios.post("https://taprobanarome.azurewebsites.net/hotelier/hotel", values).then((res) => {
       console.log(res);
       //Router.push("/verified.html");
       //Router.push("/").catch(console.error);

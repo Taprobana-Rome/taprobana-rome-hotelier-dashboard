@@ -53,7 +53,7 @@ const Page = () => {
 
   const createRoom = async (values) => {
     await axios
-      .patch("http://localhost:5000/room/" + roomId, values)
+      .patch("https://taprobanarome.azurewebsites.net/room/" + roomId, values)
       .then((response) => {
         console.log("roomId", response.data._id);
       })
@@ -94,7 +94,7 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/room/" + roomId);
+        const response = await axios.get("https://taprobanarome.azurewebsites.net/room/" + roomId);
         setTableData(response.data);
       } catch (error) {
         console.error(error);

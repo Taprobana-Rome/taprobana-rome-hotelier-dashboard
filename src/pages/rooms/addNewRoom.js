@@ -36,13 +36,13 @@ const Page = () => {
     // const files = e.currentTarget.files;
     // formData.append("images", files);
 
-    // await axios.post("http://localhost:5000/room/upload", formData, {
+    // await axios.post("https://taprobanarome.azurewebsites.net/room/upload", formData, {
     //   headers: { "Content-Type": "multipart/form-data" },
     // });
   };
 
   // const getImage = async () => {
-  //   await axios.get("http://localhost:5000/hotelier/63c50e074e4be311cbc8a86f").then((response) => {
+  //   await axios.get("https://taprobanarome.azurewebsites.net/hotelier/63c50e074e4be311cbc8a86f").then((response) => {
   //     setImage(response.data.images);
   //   });
   // };
@@ -73,7 +73,7 @@ const Page = () => {
 
   const createRoom = async (values) => {
     await axios
-      .post("http://localhost:5000/room/room/", values)
+      .post("https://taprobanarome.azurewebsites.net/room/room/", values)
       .then((response) => {
         console.log("roomId", response.data._id);
       })
