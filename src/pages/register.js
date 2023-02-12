@@ -26,7 +26,7 @@ const Register = () => {
     console.log("log data", values);
     const data = axios.post("https://taprobanarome.azurewebsites.net/hotelier/hotel", values).then((res) => {
       console.log(res);
-      //Router.push("/verified.html");
+      Router.push("/verified.html");
       //Router.push("/").catch(console.error);
       //ocalStorage.setItem("token", res.data.token);
     });
