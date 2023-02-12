@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useTheme } from "@mui/material/styles";
 
@@ -20,6 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
+import axios from "axios";
 
 const states = [
   {
@@ -80,33 +81,65 @@ export const AccountProfileDetails = (props) => {
     );
   };
 
+  const hotelid = localStorage.getItem("id");
+
+  const [oldData, setoldData] = useState([]);
+  const [onlyHigh,setonlyHigh] = useState([]);
+  
+  console.log("olddata", onlyHigh);
+
+  const getUpdateData = async () => {
+    const updateData = await axios.get(`http://localhost:5000/hotelier/${hotelid}`);
+    console.log({ updateData });
+    setoldData(updateData.data);
+    setonlyHigh(updateData.data.highlights);
+  };
+
+  useEffect(() => {
+    getUpdateData();
+  }, []);
+
+  const updateHotel = async(data) => {
+     const newData = await axios.put(`http://localhost:5000/hotelier/updatehotel/63e4d3beedef8683bd5ca036`,data);
+     console.log(newData);
+  }
+
+  //console.log("array?", oldData.reviews[0]);
+
   const formik = useFormik({
+    enableReinitialize: true,
+
     initialValues: {
-      name: "",
-      email: "",
-      address: "",
-      phone: "",
-      
-      description: "",
-      state: "",
-      province: "",
-      country: "",
-      map: "",
+      name: oldData.name,
+      email: oldData.email,
+      address: oldData.address,
+      phone: oldData.phone,
+      description: oldData.description,
+      state: oldData.state,
+      province: oldData.province,
+      country: oldData.country,
+      mapss: oldData.mapss,
       facility: [],
-      highlights: [],
+      highlights: onlyHigh
+
     },
     validationSchema: Yup.object({
-      //hotelName: Yup.string().max(255).required("Hotel name is required"),
-      //email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
-      //address: Yup.string().max(255).required("Address is required"),
-      //contact: Yup.number().min(10).required("Contact number is required"),
-      //vat: Yup.string().max(255).required("Contact is required"),
-      //businessRegNumber: Yup.string().max(255).required("Business Registration Number is required"),
-      //password: Yup.string().max(255).required("Password is required"),
-      //policy: Yup.boolean().oneOf([true], "This field must be checked"),
+      // name: Yup.string().max(255).required("Hotel name is required"),
+      // email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
+      // address: Yup.string().max(255).required("Address is required"),
+      // phone: Yup.number().min(10).required("Contact number is required"),
+      // description: Yup.string().max(255).required("description is required"),
+      // password: Yup.string().max(255).required("Password is required"),
+      // state: Yup.string().max(255).required("state is required"),
+      // province: Yup.string().max(255).required("province is required"),
+      // country: Yup.string().max(255).required("country is required"),
+      // mapss: Yup.string().max(255).required("map is required"),
+      // facility: Yup.string().max(255).required("facility is required"),
+      // highlights: Yup.string().max(255).required("highlights is required"),
     }),
     onSubmit: (values, actions) => {
       console.log({ values });
+      updateHotel(values);
 
       // let formData = new FormData();
       //formData.append("hotelName", values)
@@ -129,6 +162,13 @@ export const AccountProfileDetails = (props) => {
     });
   };
 
+  var testarray = [];
+  
+
+  // for(var i =0;i<=oldData.highlights.length;i++){
+  //   testarray = oldData?.highlights[i];
+  // }
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Card>
@@ -142,8 +182,12 @@ export const AccountProfileDetails = (props) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                error={Boolean(formik.touched.name && formik.errors.name)}
+                helperText={formik.touched.address && formik.errors.address}
                 fullWidth
-                helperText="Please specify the first name"
                 label="Hotel Name"
                 name="name"
                 required
@@ -155,10 +199,15 @@ export const AccountProfileDetails = (props) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.address && formik.errors.address)}
+                helperText={formik.touched.address && formik.errors.address}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 fullWidth
                 label="address"
                 name="address"
-                required
+                
                 variant="outlined"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -166,14 +215,29 @@ export const AccountProfileDetails = (props) => {
               />
             </Grid>
             <Grid item md={6} xs={12}>
-              <TextField fullWidth label="Email Address"
-               onBlur={formik.handleBlur}
-               onChange={formik.handleChange}
-               value={formik.values.email}
-              name="email" required variant="outlined" />
+              <TextField
+                error={Boolean(formik.touched.email && formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                fullWidth
+                label="Email Address"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.email}
+                name="email"
+                
+                variant="outlined"
+              />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.phone && formik.errors.phone)}
+                helperText={formik.touched.phone && formik.errors.phone}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 fullWidth
                 label="Phone Number"
                 name="phone"
@@ -186,10 +250,15 @@ export const AccountProfileDetails = (props) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.country && formik.errors.country)}
+                helperText={formik.touched.country && formik.errors.country}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 fullWidth
                 label="Country"
                 name="country"
-                required
+               
                 variant="outlined"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -198,10 +267,15 @@ export const AccountProfileDetails = (props) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.province && formik.errors.province)}
+                helperText={formik.touched.province && formik.errors.province}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 fullWidth
                 label="province"
                 name="province"
-                required
+               
                 variant="outlined"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -210,10 +284,15 @@ export const AccountProfileDetails = (props) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.state && formik.errors.state)}
+                helperText={formik.touched.state && formik.errors.state}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 fullWidth
                 label="state"
                 name="state"
-                required
+               
                 variant="outlined"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -222,18 +301,28 @@ export const AccountProfileDetails = (props) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+               // error={Boolean(formik.touched.mapss && formik.errors.mapss)}
+              //  helperText={formik.touched.mapss && formik.errors.maps}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 fullWidth
                 label="map"
                 name="map"
-                required
+               
                 variant="outlined"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                value={formik.values.map}
+                value={formik.values.mapss}
               />
             </Grid>
             <Grid item md={12} xs={12}>
               <TextField
+                error={Boolean(formik.touched.description && formik.errors.description)}
+                helperText={formik.touched.description && formik.errors.description}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 id="outlined-multiline-static"
                 label="description"
                 name="description"
@@ -245,28 +334,10 @@ export const AccountProfileDetails = (props) => {
                 value={formik.values.description}
                 fullWidth
               />
-              
             </Grid>
             <Grid item md={12} xs={12}>
               <Typography variant="h6">Hotel Facilities</Typography>
             </Grid>
-            {/* <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Select State"
-                name="state"
-                required
-                select
-                SelectProps={{ native: true }}
-                variant="outlined"
-              >
-                {states.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
-            </Grid> */}
             <Grid item md={12} xs={12}>
               <FormControl sx={{ width: "100%" }}>
                 <InputLabel id="Facilities">Facilities</InputLabel>
