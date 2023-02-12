@@ -24,12 +24,15 @@ import axios from "axios";
 const Register = () => {
   const signin = (values) => {
     console.log("log data", values);
-    const data = axios.post("https://taprobanarome.azurewebsites.net/hotelier/hotel", values).then((res) => {
-      console.log(res);
-      Router.push("/verified.html");
-      //Router.push("/").catch(console.error);
-      //ocalStorage.setItem("token", res.data.token);
-    });
+    const data = axios
+      .post("https://taprobanarome.azurewebsites.net/hotelier/hotel", values)
+      .then((res) => {
+        Router.push("/verified.html");
+        console.log(res);
+
+        //Router.push("/").catch(console.error);
+        //ocalStorage.setItem("token", res.data.token);
+      });
   };
 
   const formik = useFormik({
@@ -66,8 +69,6 @@ const Register = () => {
       data.append("hotel_type", values.hotel_type);
 
       signin(data);
-
-      
     },
   });
 
@@ -247,13 +248,7 @@ const Register = () => {
               <FormHelperText error>{formik.errors.policy}</FormHelperText>
             )}
             <Box sx={{ py: 2 }}>
-              <Button
-                color="primary"
-                fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-              >
+              <Button color="primary" fullWidth size="large" type="submit" variant="contained">
                 Sign Up Now
               </Button>
             </Box>
