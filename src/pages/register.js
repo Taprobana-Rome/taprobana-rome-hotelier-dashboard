@@ -66,8 +66,6 @@ const Register = () => {
       data.append("hotel_type", values.hotel_type);
 
       signin(data);
-
-      
     },
   });
 
@@ -86,18 +84,13 @@ const Register = () => {
         }}
       >
         <Container maxWidth="sm" style={{ marginTop: "50px", marginBottom: "50px" }}>
-          <NextLink href="/" passHref>
-            <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>
-              Hotelier Dashboard
-            </Button>
-          </NextLink>
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3 }}>
               <Typography color="textPrimary" variant="h4">
-                Create a new hotelier account
+                Create a new account
               </Typography>
               <Typography color="textSecondary" gutterBottom variant="body2">
-                Use your hotel email to create a new hotelier account
+                Use your official hotel email to create a new account
               </Typography>
             </Box>
             <TextField
@@ -124,7 +117,7 @@ const Register = () => {
               type="email"
               value={formik.values.email}
               variant="outlined"
-            />{" "}
+            />
             <TextField
               error={Boolean(formik.touched.address && formik.errors.address)}
               fullWidth
@@ -141,7 +134,7 @@ const Register = () => {
               error={Boolean(formik.touched.contact && formik.errors.contact)}
               fullWidth
               helperText={formik.touched.contact && formik.errors.contact}
-              label="Contact"
+              label="Contact Number"
               margin="normal"
               name="contact"
               onBlur={formik.handleBlur}
@@ -170,7 +163,7 @@ const Register = () => {
                   <MenuItem value={"Villa"}>Villa</MenuItem>
                   <MenuItem value={"Apartment"}>Apartment</MenuItem>
                   <MenuItem value={"Glamping"}>Glamping</MenuItem>
-                  <MenuItem value={"Luxury Hostels"}>Luxury Hostels</MenuItem>
+                  <MenuItem value={"Luxury Hostels"}>Luxury Hostels</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -187,41 +180,7 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
-            {/* <TextField
-              error={Boolean(formik.touched.password && formik.errors.password)}
-              fullWidth
-              helperText={formik.touched.password && formik.errors.password}
-              label="Re-enter password"
-              margin="normal"
-              name="password"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="password"
-              value={formik.values.password}
-              variant="outlined"
-            /> */}
-            <input
-              type="file"
-              name="files"
-              multiple
-              onChange={(event) => {
-                formik.setFieldValue("image", event.target.files[0]);
-              }}
-              //value={formik.values.image}
-            />
-            {/* <input
-                onChange={(e) => setFile(e.target.files)}
-                type="file"
-                accept="image/*"
-                name="file"
-                multiple
-              ></input> */}
-            {/* <input
-                value={caption}
-                //onChange={(e) => setCaption(e.target.value)}
-                type="text"
-                placeholder="Caption"
-              ></input> */}
+
             <Box
               sx={{
                 alignItems: "center",
@@ -236,10 +195,12 @@ const Register = () => {
               />
               <Typography color="textSecondary" variant="body2">
                 I have read the{" "}
-                <NextLink href="#" passHref>
-                  <Link color="primary" underline="always" variant="subtitle2">
-                    Terms and Conditions
-                  </Link>
+                <NextLink href="/terms" passHref>
+                  <a target="_blank">
+                    <Link color="primary" underline="always" variant="subtitle2">
+                      Terms and Conditions
+                    </Link>
+                  </a>
                 </NextLink>
               </Typography>
             </Box>
