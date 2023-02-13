@@ -18,6 +18,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import DragAndDropFileUpload from "../../../components/rooms/addImages";
 
 const Page = () => {
   const route = useRouter();
@@ -67,8 +68,8 @@ const Page = () => {
       price: tableData.price,
       description: tableData.description,
       isBooking: tableData.isBooking,
-      capacity: tableData.isBooking,
       bed_count: tableData.bed_count,
+      capacity: tableData.capacity,
       sqft: tableData.sqft,
       hotel: hotelId,
     },
@@ -103,7 +104,7 @@ const Page = () => {
 
     fetchData();
   }, []);
-
+  console.log(tableData);
   return (
     <>
       <Head>
@@ -128,27 +129,45 @@ const Page = () => {
             <form onSubmit={formik.handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <TextField
+                  <select
+                    style={{
+                      marginTop: 16,
+                      height: 55,
+                      width: "100%",
+                      borderColor: "lightgray",
+                      borderRadius: 8,
+                      fontSize: 16,
+                    }}
                     error={Boolean(formik.touched.type && formik.errors.type)}
                     fullWidth
                     helperText={formik.touched.type && formik.errors.type}
                     label="Type"
                     margin="normal"
                     name="type"
-                    select
                     onBlur={formik.handleBlur}
                     InputLabelProps={{ shrink: true }}
                     onChange={formik.handleChange}
                     value={formik.values.type}
                     variant="outlined"
                   >
-                    {console.log("type=>",formik.values.type)}
+                    {console.log("type=>", formik.values.type)}
                     {roomTypes.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
+                      <option
+                        style={{
+                          marginTop: 16,
+                          height: 55,
+                          width: 550,
+                          borderColor: "lightgray",
+                          borderRadius: 8,
+                          fontSize: 16,
+                        }}
+                        key={option.value}
+                        value={option.value}
+                      >
                         {option.label}
-                      </MenuItem>
+                      </option>
                     ))}
-                  </TextField>
+                  </select>
                 </Grid>
                 <Grid item xs={6}>
                   <TextField
@@ -185,7 +204,15 @@ const Page = () => {
               />
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <TextField
+                  <select
+                    style={{
+                      marginTop: 16,
+                      height: 55,
+                      width: "100%",
+                      borderColor: "lightgray",
+                      borderRadius: 8,
+                      fontSize: 16,
+                    }}
                     error={Boolean(formik.touched.isBooking && formik.errors.isBooking)}
                     fullWidth
                     helperText={formik.touched.isBooking && formik.errors.isBooking}
@@ -200,11 +227,11 @@ const Page = () => {
                     variant="outlined"
                   >
                     {roomStatus.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
+                      <option key={option.value} value={option.value}>
                         {option.label}
-                      </MenuItem>
+                      </option>
                     ))}
-                  </TextField>
+                  </select>
                 </Grid>
                 <Grid item xs={6}>
                   <TextField
@@ -266,6 +293,9 @@ const Page = () => {
           </Box>
         </Container>
       </Box>
+      <Container>
+
+      </Container>
     </>
   );
 };

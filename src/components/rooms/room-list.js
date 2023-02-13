@@ -15,12 +15,11 @@ export const RoomListResults = () => {
   const open = Boolean(anchorEl);
   const router = useRouter();
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/room/hotel/"+ localStorage.getItem("id"),
+          "http://localhost:5000/room/hotel/" + localStorage.getItem("id"),
           localStorage.getItem("id")
         );
         setTableData(response.data);
@@ -31,6 +30,8 @@ export const RoomListResults = () => {
 
     fetchData();
   }, []);
+
+  console.log(tableData);
 
   const columns = [
     { field: "id", headerName: "ID", width: 80 },
@@ -44,14 +45,14 @@ export const RoomListResults = () => {
       headerName: "Booking status",
       width: 150,
       renderCell: (params) => {
-        return params.isBooking ? (
+        return params.row.isBooking == true ? (
           <div className="">✔ Booked</div>
         ) : (
           <div className="">❌ Not Booked</div>
         );
       },
     },
-    { field: "created_at", headerName: "Created_at", width: 150 },
+    // { field: "created_at", headerName: "Created_at", width: 150 },
   ];
 
   const trim = tableData?.map((data) => {
@@ -62,10 +63,10 @@ export const RoomListResults = () => {
       description: data.description,
       capacity: data.capacity,
       bed_count: data.bed_count,
-      created_at: data.created_at,
+      isBooking: data.isBooking,
+      // created_at: data.created_at,
     };
   });
-
 
   // menu start
   const handleClick = (event, rowData) => {
