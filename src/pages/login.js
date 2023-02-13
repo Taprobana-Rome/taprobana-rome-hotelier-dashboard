@@ -15,21 +15,36 @@ import {
 } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
+  const notifyError = (err) =>
+  toast.error(err, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+
   const logins = (values) => {
     console.log("value=>", values);
     axios
       .post("http://localhost:5000/hotelier/login", values)
       .then((res) => {
         if (!res) {
-          ("loading");
+          alert("loading");
         } else if (res.data.status === "SUCCESS") {
           Router.push("/");
         } else {
-          alert("Plese verify your email!");
+          notifyError(res.data.message);
+          
+          
           console.log("error=>", res.data);
         }
         localStorage.setItem("token", res.data.token);
@@ -146,7 +161,7 @@ const Login = () => {
                       type="submit"
                       variant="contained"
                     >
-                      Sign In Now
+                      Sign In
                     </Button>
                   </Box>
                   <Typography color="textSecondary" variant="body2">
@@ -170,6 +185,7 @@ const Login = () => {
           </Grid>
         </Grid>
       </Box>
+      <ToastContainer />
     </>
   );
 };
