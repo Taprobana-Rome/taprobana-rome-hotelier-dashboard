@@ -84,8 +84,9 @@ export const AccountProfileDetails = (props) => {
   const hotelid = localStorage.getItem("id");
 
   const [oldData, setoldData] = useState([]);
-  const [onlyHigh,setonlyHigh] = useState([]);
-  
+  const [onlyHigh, setonlyHigh] = useState([]);
+  const [onlyFaci, setonlyFaci] = useState([]);
+
   console.log("olddata", onlyHigh);
 
   const getUpdateData = async () => {
@@ -93,16 +94,20 @@ export const AccountProfileDetails = (props) => {
     console.log({ updateData });
     setoldData(updateData.data);
     setonlyHigh(updateData.data.highlights);
+    setonlyFaci(updateData.data.facilities);
   };
 
   useEffect(() => {
     getUpdateData();
   }, []);
 
-  const updateHotel = async(data) => {
-     const newData = await axios.put(`http://localhost:5000/hotelier/updatehotel/63e4d3beedef8683bd5ca036`,data);
-     console.log(newData);
-  }
+  const updateHotel = async (data) => {
+    const newData = await axios.put(
+      `http://localhost:5000/hotelier/updatehotel/${hotelid}`,
+      data
+    );
+    console.log(newData);
+  };
 
   //console.log("array?", oldData.reviews[0]);
 
@@ -119,9 +124,8 @@ export const AccountProfileDetails = (props) => {
       province: oldData.province,
       country: oldData.country,
       mapss: oldData.mapss,
-      facility: [],
-      highlights: onlyHigh
-
+      facilities: onlyFaci,
+      highlights: onlyHigh,
     },
     validationSchema: Yup.object({
       // name: Yup.string().max(255).required("Hotel name is required"),
@@ -141,7 +145,8 @@ export const AccountProfileDetails = (props) => {
       console.log({ values });
       updateHotel(values);
 
-      // let formData = new FormData();
+      let formData = new FormData();
+      
       //formData.append("hotelName", values)
       // let data = new FormData();
       // data.append("image", values.image);
@@ -155,20 +160,6 @@ export const AccountProfileDetails = (props) => {
     },
   });
 
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  var testarray = [];
-  
-
-  // for(var i =0;i<=oldData.highlights.length;i++){
-  //   testarray = oldData?.highlights[i];
-  // }
-
   return (
     <form onSubmit={formik.handleSubmit}>
       <Card>
@@ -180,6 +171,15 @@ export const AccountProfileDetails = (props) => {
             <Grid item md={12} xs={12}>
               <Typography variant="h6">Main Details</Typography>
             </Grid>
+            <input
+              type="file"
+              name="files"
+              multiple
+              onChange={(event) => {
+                formik.setFieldValue("image", event.target.files[0]);
+              }}
+              //value={formik.values.image}
+            />
             <Grid item md={6} xs={12}>
               <TextField
                 InputLabelProps={{
@@ -207,7 +207,6 @@ export const AccountProfileDetails = (props) => {
                 fullWidth
                 label="address"
                 name="address"
-                
                 variant="outlined"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -227,7 +226,6 @@ export const AccountProfileDetails = (props) => {
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 name="email"
-                
                 variant="outlined"
               />
             </Grid>
@@ -258,7 +256,6 @@ export const AccountProfileDetails = (props) => {
                 fullWidth
                 label="Country"
                 name="country"
-               
                 variant="outlined"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -275,7 +272,6 @@ export const AccountProfileDetails = (props) => {
                 fullWidth
                 label="province"
                 name="province"
-               
                 variant="outlined"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -292,7 +288,6 @@ export const AccountProfileDetails = (props) => {
                 fullWidth
                 label="state"
                 name="state"
-               
                 variant="outlined"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -301,15 +296,14 @@ export const AccountProfileDetails = (props) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-               // error={Boolean(formik.touched.mapss && formik.errors.mapss)}
-              //  helperText={formik.touched.mapss && formik.errors.maps}
+                // error={Boolean(formik.touched.mapss && formik.errors.mapss)}
+                //  helperText={formik.touched.mapss && formik.errors.maps}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 fullWidth
                 label="map"
                 name="map"
-               
                 variant="outlined"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -345,12 +339,12 @@ export const AccountProfileDetails = (props) => {
                   labelId="Facilities"
                   id="Facilities"
                   multiple
-                  name="facility"
+                  name="facilities"
                   //value={personName}
                   //onChange={handleChangeone}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  value={formik.values.facility}
+                  value={formik.values.facilities}
                   input={<OutlinedInput id="select-multiple-chip" label="Facilities" />}
                   renderValue={(selected) => (
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
