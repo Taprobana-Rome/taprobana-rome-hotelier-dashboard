@@ -65,11 +65,7 @@ export const RoomListResults = () => {
       created_at: data.created_at,
     };
   });
-  // var columns = [
-  //   { field: "id", headerName: "ID", width: 50 },
-  //   { field: "col1", headerName: "Column 1", width: 150 },
-  //   { field: "col2", headerName: "Column 2", width: 150 },
-  // ];
+
 
   // menu start
   const handleClick = (event, rowData) => {
