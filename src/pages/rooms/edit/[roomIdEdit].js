@@ -18,7 +18,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import DragAndDropFileUpload from "../../../components/rooms/addImages";
 
 const Page = () => {
   const route = useRouter();
