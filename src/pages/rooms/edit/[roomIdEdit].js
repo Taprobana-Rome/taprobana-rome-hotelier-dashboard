@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Box,
@@ -37,8 +37,6 @@ const Page = () => {
       theme: "light",
     });
 
-  // console.log(tableData.type);
-
   const notifyError = () =>
     toast.error("Room update Error", {
       position: "top-right",
@@ -51,7 +49,7 @@ const Page = () => {
       theme: "light",
     });
 
-  const createRoom = async (values) => {
+  const updateRoom = async (values) => {
     await axios
       .patch("http://localhost:5000/room/" + roomId, values)
       .then((response) => {
@@ -81,7 +79,7 @@ const Page = () => {
       bed_count: Yup.number().required("Bed count is required"),
     }),
     onSubmit: (values, action) => {
-      createRoom(values)
+      updateRoom(values)
         .then(notifySuccess())
         .catch((err) => notifyError());
 
@@ -292,9 +290,7 @@ const Page = () => {
           </Box>
         </Container>
       </Box>
-      <Container>
-
-      </Container>
+      <ToastContainer />
     </>
   );
 };

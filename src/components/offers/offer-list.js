@@ -7,6 +7,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DataGrid, GridToolbar, GridColumnMenu } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const OfferListResults = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -19,7 +21,7 @@ export const OfferListResults = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/room/hotel/" + localStorage.getItem("id"),
+          "http://localhost:5000/offer/" + localStorage.getItem("id"),
           localStorage.getItem("id")
         );
         setTableData(response.data);
@@ -31,42 +33,72 @@ export const OfferListResults = () => {
     fetchData();
   }, []);
 
+  const notifySuccess = () =>
+    toast.success("Offer Deleted  Successfuly", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const notifyError = () =>
+    toast.error("Offer Deleted Error", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
   console.log(tableData);
 
   const columns = [
-    { field: "id", headerName: "ID", width: 80 },
-    { field: "type", headerName: "Type", width: 150 },
-    { field: "price", headerName: "Price", width: 100 },
-    { field: "description", headerName: "Description", width: 200 },
-    { field: "capacity", headerName: "Capacity", width: 80 },
-    { field: "bed_count", headerName: "Bed", width: 70 },
+    { field: "id", headerName: "ID", width: 150 },
+    { field: "description", headerName: "Description", width: 300 },
+    { field: "discount", headerName: "Discount Amount", width: 150 },
+    { field: "expireTime", headerName: "Expire Time", width: 300 },
+  ];
+
+  const rows = [
     {
-      field: "isBooking",
-      headerName: "Booking status",
-      width: 150,
-      renderCell: (params) => {
-        return params.row.isBooking == true ? (
-          <div className="">✔ Booked</div>
-        ) : (
-          <div className="">❌ Not Booked</div>
-        );
-      },
+      id: 1,
+      description: "MUI",
+      discount: 10,
+      expireTime: "12.00",
     },
-    // { field: "created_at", headerName: "Created_at", width: 150 },
+    {
+      id: 2,
+      description: "DataGridPro",
+      discount: 15,
+      expireTime: "01.30",
+    },
   ];
 
   const trim = tableData?.map((data) => {
     return {
       id: data._id,
-      type: data.type,
-      price: data.price,
       description: data.description,
-      capacity: data.capacity,
-      bed_count: data.bed_count,
-      isBooking: data.isBooking,
-      // created_at: data.created_at,
+      discount: data.discount,
+      expireTime: data.expireTime,
     };
   });
+
+
+  const deleteOffer = async (offerId) => {
+    await axios
+      .delete("http://localhost:5000/offer/" + offerId)
+      .then((response) => {
+        console.log("roomId", response.data._id);
+      })
+      .catch((err) => console.log(err));
+  };
 
   // menu start
   const handleClick = (event, rowData) => {
@@ -81,8 +113,12 @@ export const OfferListResults = () => {
     setAnchorEl(null);
   };
   const handleDelete = (href) => {
-    router.push("/offers/delete/" + href);
-    setAnchorEl(null);
+    let result = confirm("Do you want to delete '" + href + "' offer");
+    if (result === true) {
+      deleteOffer(href)
+        .then(notifySuccess())
+        .catch((err) => notifyError());
+    }
   };
 
   const actionColumn = [
@@ -150,6 +186,7 @@ export const OfferListResults = () => {
           },
         }}
       />
+      <ToastContainer />
     </div>
   );
 };
