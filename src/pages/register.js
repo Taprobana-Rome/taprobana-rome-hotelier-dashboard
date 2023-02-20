@@ -34,16 +34,15 @@ const Register = () => {
 
   const formik = useFormik({
     initialValues: {
-      hotelName: "",
+      name: "",
       email: "",
       address: "",
       contact: "",
       password: "",
-      image: "",
-      hotel_type: "",
+      hotelType: "",
     },
     validationSchema: Yup.object({
-      hotelName: Yup.string().max(255).required("Hotel name is required"),
+      name: Yup.string().max(255).required("Hotel name is required"),
       email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
       //address: Yup.string().max(255).required("Address is required"),
       //contact: Yup.number().min(10).required("Contact number is required"),
@@ -52,20 +51,9 @@ const Register = () => {
       password: Yup.string().max(255).required("Password is required"),
       //policy: Yup.boolean().oneOf([true], "This field must be checked"),
     }),
-    onSubmit: (values, actions) => {
+    onSubmit: (values) => {
       console.log(values);
-
-      // let formData = new FormData();
-      //formData.append("hotelName", values)
-      let data = new FormData();
-      data.append("image", values.image);
-      data.append("name", values.hotelName);
-      data.append("address", values.address);
-      data.append("email", values.email);
-      data.append("password", values.password);
-      data.append("hotel_type", values.hotel_type);
-
-      signin(data);
+      signin(values);
     },
   });
 
@@ -94,15 +82,15 @@ const Register = () => {
               </Typography>
             </Box>
             <TextField
-              error={Boolean(formik.touched.hotelName && formik.errors.hotelName)}
+              error={Boolean(formik.touched.name && formik.errors.name)}
               fullWidth
-              helperText={formik.touched.hotelName && formik.errors.hotelName}
+              helperText={formik.touched.name && formik.errors.name}
               label="Hotel Name"
               margin="normal"
-              name="hotelName"
+              name="name"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.hotelName}
+              value={formik.values.name}
               variant="outlined"
             />
             <TextField
@@ -150,13 +138,13 @@ const Register = () => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  name="hotel_type"
+                  name="hotelType"
                   //value={age}
                   label="hotel type"
                   //onChange={handleChange}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  value={formik.values.hotel_type}
+                  value={formik.values.hotelType}
                 >
                   <MenuItem value={"Hotel"}>Hotel</MenuItem>
                   <MenuItem value={"Resort"}>Resort</MenuItem>

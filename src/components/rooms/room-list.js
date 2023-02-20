@@ -14,6 +14,7 @@ export const RoomListResults = () => {
   const [tableData, setTableData] = useState([]);
   const open = Boolean(anchorEl);
   const router = useRouter();
+  const hotelType = localStorage.getItem("hotelType");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,7 +53,6 @@ export const RoomListResults = () => {
         );
       },
     },
-    // { field: "created_at", headerName: "Created_at", width: 150 },
   ];
 
   const trim = tableData?.map((data) => {

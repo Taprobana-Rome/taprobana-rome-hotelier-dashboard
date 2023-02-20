@@ -3,16 +3,7 @@ import NextLink from "next/link";
 import Router from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Link,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, Grid, Link, Paper, TextField, Typography } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import axios from "axios";
@@ -21,16 +12,16 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const notifyError = (err) =>
-  toast.error(err, {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  });
+    toast.error(err, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   const logins = (values) => {
     console.log("value=>", values);
@@ -43,14 +34,15 @@ const Login = () => {
           Router.push("/");
         } else {
           notifyError(res.data.message);
-          
-          
+
           console.log("error=>", res.data);
         }
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("name", res.data.name);
         localStorage.setItem("id", res.data._id);
         localStorage.setItem("email", res.data.email);
+        localStorage.setItem("hotelType", res.data.hotelType);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log("error=>", err);
