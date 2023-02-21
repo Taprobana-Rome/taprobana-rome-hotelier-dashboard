@@ -8,6 +8,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Box,
   Button,
@@ -21,6 +23,10 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import axios from "axios";
+
+
+
+
 
 const states = [
   {
@@ -92,9 +98,9 @@ export const AccountProfileDetails = (props) => {
   const getUpdateData = async () => {
     const updateData = await axios.get(`http://localhost:5000/hotelier/${hotelid}`);
     console.log({ updateData });
-    setoldData(updateData.data);
-    setonlyHigh(updateData.data.highlights);
-    setonlyFaci(updateData.data.facilities);
+    setoldData(updateData.data.hotel);
+    setonlyHigh(updateData.data.hotel.highlights);
+    setonlyFaci(updateData.data.hotel.facilities);
   };
 
   useEffect(() => {
@@ -102,11 +108,20 @@ export const AccountProfileDetails = (props) => {
   }, []);
 
   const updateHotel = async (data) => {
-    const newData = await axios.put(
-      `http://localhost:5000/hotelier/updatehotel/${hotelid}`,
-      data
-    );
-    console.log(newData);
+    const newData = await axios.put(`http://localhost:5000/hotelier/updatehotel/${hotelid}`, data).then((res)=>{
+      console.log(newData);
+      toast.success("Update Successfuly", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    });
+    
   };
 
   //console.log("array?", oldData.reviews[0]);
@@ -126,6 +141,7 @@ export const AccountProfileDetails = (props) => {
       mapss: oldData.mapss,
       facilities: onlyFaci,
       highlights: onlyHigh,
+      image: [],
     },
     validationSchema: Yup.object({
       // name: Yup.string().max(255).required("Hotel name is required"),
@@ -143,20 +159,30 @@ export const AccountProfileDetails = (props) => {
     }),
     onSubmit: (values, actions) => {
       console.log({ values });
-      updateHotel(values);
 
-      let formData = new FormData();
+      let data = new FormData();
+
+      for(let i=0; i < values.image.length; i++){
+        data.append("profileImg", values.image[0]);
+      }
       
-      //formData.append("hotelName", values)
-      // let data = new FormData();
-      // data.append("image", values.image);
-      // data.append("name", values.hotelName);
+      data.append("name", values.name);
+      data.append("address", values.address);
+      data.append("hotelid", hotelid);
+      data.append("state", values.state);
+      data.append("country", values.country);
+      data.append("facilities", values.facilities);
+      //data.append("highlights", values.highlights);
+      data.append("description", values.description);
+      data.append("phone", values.phone);
+
+      updateHotel(data);
       // data.append("address", values.address);
       // data.append("email", values.email);
       // data.append("password", values.password);
       // data.append("hotel_type", values.hotel_type);
 
-      // signin(data);
+      //signin(data);
     },
   });
 
@@ -171,15 +197,7 @@ export const AccountProfileDetails = (props) => {
             <Grid item md={12} xs={12}>
               <Typography variant="h6">Main Details</Typography>
             </Grid>
-            <input
-              type="file"
-              name="files"
-              multiple
-              onChange={(event) => {
-                formik.setFieldValue("image", event.target.files[0]);
-              }}
-              //value={formik.values.image}
-            />
+
             <Grid item md={6} xs={12}>
               <TextField
                 InputLabelProps={{
@@ -332,7 +350,7 @@ export const AccountProfileDetails = (props) => {
             <Grid item md={12} xs={12}>
               <Typography variant="h6">Hotel Facilities</Typography>
             </Grid>
-            <Grid item md={12} xs={12}>
+            {/* <Grid item md={12} xs={12}>
               <FormControl sx={{ width: "100%" }}>
                 <InputLabel id="Facilities">Facilities</InputLabel>
                 <Select
@@ -362,11 +380,11 @@ export const AccountProfileDetails = (props) => {
                   ))}
                 </Select>
               </FormControl>
-            </Grid>
+            </Grid> */}
 
-            <Grid item md={12} xs={12}>
+            {/* <Grid item md={12} xs={12}>
               <Typography variant="h6">Highlights</Typography>
-            </Grid>
+            </Grid> */}
 
             <Grid item md={12} xs={12}>
               <FormControl sx={{ width: "100%" }}>
@@ -399,6 +417,17 @@ export const AccountProfileDetails = (props) => {
                 </Select>
               </FormControl>
             </Grid>
+            <Grid mt={3} ml={3}>
+              <input
+                type="file"
+                name="files"
+                multiple
+                onChange={(event) => {
+                  formik.setFieldValue("image", event.target.files);
+                }}
+                //value={formik.values.image}
+              />
+            </Grid>
           </Grid>
         </CardContent>
         <Divider />
@@ -414,6 +443,7 @@ export const AccountProfileDetails = (props) => {
           </Button>
         </Box>
       </Card>
+      <ToastContainer />
     </form>
   );
 };

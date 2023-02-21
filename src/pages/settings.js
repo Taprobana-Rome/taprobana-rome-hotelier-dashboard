@@ -8,7 +8,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Settings | Taprobanarome Hotelier
+        Settings | Taprobanarome Gallery
       </title>
     </Head>
     <Box
@@ -23,12 +23,10 @@ const Page = () => (
           sx={{ mb: 3 }}
           variant="h4"
         >
-          Settings
+          Gallery
         </Typography>
         <SettingsNotifications />
-        <Box sx={{ pt: 3 }}>
-          <SettingsPassword />
-        </Box>
+      
       </Container>
     </Box>
   </>
