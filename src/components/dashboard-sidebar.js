@@ -33,6 +33,11 @@ const items = [
     title: "Rooms",
   },
   {
+    href: "/receptionHall",
+    icon: <BedroomChildIcon fontSize="small" />,
+    title: "Reception Hall",
+  },
+  {
     href: "/reviews",
     icon: <ReviewsIcon fontSize="small" />,
     title: "Review",

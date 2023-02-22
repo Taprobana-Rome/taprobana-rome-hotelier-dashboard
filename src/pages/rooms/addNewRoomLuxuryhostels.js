@@ -63,7 +63,6 @@ const Page = () => {
 
   const formik = useFormik({
     initialValues: {
-      type: "",
       price: 0,
       description: "",
       isBooking: false,
@@ -73,7 +72,6 @@ const Page = () => {
       hotel: hotelId,
     },
     validationSchema: Yup.object({
-      type: Yup.string().max(255).required("Room type is required"),
       price: Yup.number().nullable(false).required("price is required"),
       description: Yup.string().max(1000).required("Description is required"),
       isBooking: Yup.bool(),

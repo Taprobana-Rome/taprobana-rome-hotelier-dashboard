@@ -28,8 +28,14 @@ const Page = () => {
   const [caption, setCaption] = useState("");
   const [image, setImage] = useState("");
 
+  const submit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+  };
+
   const notifySuccess = () =>
-    toast.success("Room Added Successfuly", {
+    toast.success("Reception Added Successfuly", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -41,7 +47,7 @@ const Page = () => {
     });
 
   const notifyError = () =>
-    toast.error("Room Added Error", {
+    toast.error("Reception Added Error", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -54,32 +60,30 @@ const Page = () => {
 
   const createRoom = async (values) => {
     await axios
-      .post("http://localhost:5000/room/room/", values)
+      .post("http://localhost:5000/reception", values)
       .then((response) => {
-        console.log("roomId", response.data._id);
+        console.log("receptionId", response.data._id);
       })
       .catch((err) => console.log(err));
   };
 
   const formik = useFormik({
     initialValues: {
-    
-      price: 0,
+      name: "",
       description: "",
-      isBooking: false,
+      price: 0,
       capacity: 0,
-      bed_count: 0,
+      tables: 0,
       sqft: 0,
-      hotel: hotelId,
     },
-    validationSchema: Yup.object({
-     
-      price: Yup.number().nullable(false).required("price is required"),
-      description: Yup.string().max(1000).required("Description is required"),
-      isBooking: Yup.bool(),
-      capacity: Yup.number().required("capacity is required"),
-      bed_count: Yup.number().required("Bed count is required"),
-    }),
+    // validationSchema: Yup.object({
+    //   type: Yup.string().max(255).required("Reception type is required"),
+    //   price: Yup.number().nullable(false).required("price is required"),
+    //   description: Yup.string().max(1000).required("Description is required"),
+    //   isBooking: Yup.bool(),
+    //   capacity: Yup.number().required("capacity is required"),
+    //   bed_count: Yup.number().required("Bed count is required"),
+    // }),
     onSubmit: (values, action) => {
       createRoom(values)
         .then(notifySuccess())
@@ -94,7 +98,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>New Glamping | TaprobanaRome</title>
+        <title>New Reception | TaprobanaRome</title>
       </Head>
       <Box
         component="main"
@@ -109,15 +113,32 @@ const Page = () => {
             <Link underline="hover" color="inherit" href="/rooms">
               Rooms
             </Link>
-            <Typography color="text.primary">Add new Glamping</Typography>
+            <Typography color="text.primary">Add new room</Typography>
           </Breadcrumbs>
           <Box sx={{ mt: 3 }}>
-            <h1>Add New Glamping</h1>
+            <h1>Add new Reception</h1>
+
+            {/* ============================== */}
+
             <Box mt={5} mx={5}>
               <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
-                    <TextField disabled
+                    <TextField
+                      error={Boolean(formik.touched.name && formik.errors.name)}
+                      fullWidth
+                      helperText={formik.touched.name && formik.errors.name}
+                      label="name"
+                      margin="normal"
+                      name="name"
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={formik.values.name}
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
                       error={Boolean(formik.touched.price && formik.errors.price)}
                       fullWidth
                       helperText={formik.touched.price && formik.errors.price}
@@ -172,16 +193,16 @@ const Page = () => {
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
-                      error={Boolean(formik.touched.bed_count && formik.errors.bed_count)}
+                      error={Boolean(formik.touched.tables && formik.errors.tables)}
                       fullWidth
-                      helperText={formik.touched.bed_count && formik.errors.bed_count}
-                      label="bed_count"
+                      helperText={formik.touched.tables && formik.errors.tables}
+                      label="tables"
                       margin="normal"
-                      name="bed_count"
+                      name="tables"
                       type="number"
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
-                      value={formik.values.bed_count}
+                      value={formik.values.tables}
                       variant="outlined"
                     />
                   </Grid>
@@ -238,21 +259,6 @@ const Page = () => {
 Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default Page;
-
-const roomTypes = [
-  {
-    value: "standard",
-    label: "Standard Room",
-  },
-  {
-    value: "deluxe",
-    label: "Deluxe Room",
-  },
-  {
-    value: "supreme",
-    label: "Supreme Room",
-  },
-];
 
 const roomStatus = [
   {

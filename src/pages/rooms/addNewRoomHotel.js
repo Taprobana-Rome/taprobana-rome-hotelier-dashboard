@@ -32,20 +32,7 @@ const Page = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    // console.log(e.currentTarget.files);
-    // const files = e.currentTarget.files;
-    // formData.append("images", files);
-
-    // await axios.post("http://localhost:5000/room/upload", formData, {
-    //   headers: { "Content-Type": "multipart/form-data" },
-    // });
   };
-
-  // const getImage = async () => {
-  //   await axios.get("http://localhost:5000/hotelier/63c50e074e4be311cbc8a86f").then((response) => {
-  //     setImage(response.data.images);
-  //   });
-  // };
 
   const notifySuccess = () =>
     toast.success("Room Added Successfuly", {
@@ -132,35 +119,6 @@ const Page = () => {
           </Breadcrumbs>
           <Box sx={{ mt: 3 }}>
             <h1>Add new Room</h1>
-
-            {/* <form onSubmit={submit} encType="multipart/form-data"> */}
-            {/* <input type="file" name="file" multiple /> */}
-            {/* <input
-                onChange={(e) => setFile(e.target.files)}
-                type="file"
-                accept="image/*"
-                name="file"
-                multiple
-              ></input> */}
-
-            {/* <input
-                value={caption}
-                onChange={(e) => setCaption(e.target.value)}
-                type="text"
-                placeholder="Caption"
-              ></input>
-              <button type="submit">Submit</button>
-            </form>
-
-            <button onClick={() => getImage()} type="submit">
-              Get image
-            </button>
-
-            <button onClick={() => createRoom()} type="submit">
-              Create room
-            </button> */}
-
-            {/* <img src={image}></img> */}
 
             {/* ============================== */}
 
