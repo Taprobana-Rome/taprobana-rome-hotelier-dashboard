@@ -34,8 +34,8 @@ const Page = () => (
           </Typography>
 
           <Typography mt={1} align="left" color="textPrimary" variant="subtitle2">
-            "Latest Update January 2023" Our company is legally registered under the valid laws of
-            Sri Lanka and we are present as Elysian win way (PVT)Ltd. The name "Taprobana Rome" is
+          &quot;Latest Update January 2023&quot; Our company is legally registered under the valid laws of
+            Sri Lanka and we are present as Elysian win way (PVT)Ltd. The name &quot;Taprobana Rome&quot; is
             our business name and it represents only our website and mobile application. Our office
             is located at (Us 6 / Dinapola / Moratuwa) and you can connect any time via the phone
             number provided to you.
@@ -48,17 +48,17 @@ const Page = () => (
           <Typography mt={1} align="left" color="textPrimary" variant="subtitle2">
             <ol>
               <li>
-                The hotelier's general dashboard form provided by us is the same for all hotels and
+                The hotelier&apos;s general dashboard form provided by us is the same for all hotels and
                 ensure that you only keep the account information that you set up before doing
                 business with us.
               </li>
               <li>
-                Fill in the hotelier's general dashboard form and be more careful while registering
+                Fill in the hotelier&apos;s general dashboard form and be more careful while registering
                 and updating.
               </li>
               <li>
                 We do not check the prices, discounts, special offers, etc. that you do in the
-                hotelier's general dashboard form, and our customers can use that information from
+                hotelier&apos;s general dashboard form, and our customers can use that information from
                 that moment. Note: This procedure is provided only for your convenience
               </li>
               <li>
@@ -81,7 +81,7 @@ const Page = () => (
                 website or mobile application. You should have a sound understanding about that
               </li>
               <li>
-                We have provided a new facility called "quick checking" to customers who have made a
+                We have provided a new facility called &quot;quick checking&quot; to customers who have made a
                 reservation through our website or mobile phone application and come to the hotel
                 and we have explained below how this happens.
               </li>
@@ -89,13 +89,13 @@ const Page = () => (
           </Typography>
 
           <Typography mt={1} align="left" color="textPrimary" variant="subtitle2">
-            <i>"Introduction to Quick Checking Facility"</i>
+            <i>&quot;Introduction to Quick Checking Facility&quot;</i>
           </Typography>
           <Typography mt={1} align="left" color="textPrimary" variant="subtitle2">
             Customers who come to your hotel premises have a good understanding of the cancellation
-            policy for all hotels, and he or she can get this "quick checking" facility from 10.00
+            policy for all hotels, and he or she can get this &quot;quick checking&quot; facility from 10.00
             a.m on the day of the relevant reservation. All her information is given to you. The
-            information will be sent to your hotelier's dashboard immediately and you can fill in
+            information will be sent to your hotelier&apos;s dashboard immediately and you can fill in
             the information on the guest registration form, and after the customer arrives, it is
             your responsibility to obtain the national of card / passport documents to confirm his
             or her identity.
