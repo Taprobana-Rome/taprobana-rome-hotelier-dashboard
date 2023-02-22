@@ -19,7 +19,7 @@ import BedroomChildIcon from "@mui/icons-material/BedroomChild";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import Person2Icon from "@mui/icons-material/Person2";
-import ListAltIcon from "@mui/icons-material/ListAlt";
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
 const items = [
   {
@@ -33,9 +33,19 @@ const items = [
     title: "Rooms",
   },
   {
+    href: "/receptionHall",
+    icon: <BedroomChildIcon fontSize="small" />,
+    title: "Reception Hall",
+  },
+  {
     href: "/reviews",
     icon: <ReviewsIcon fontSize="small" />,
     title: "Review",
+  },
+  {
+    href: "/offers",
+    icon: <LocalOfferIcon fontSize="small" />,
+    title: "Offers",
   },
   {
     href: "/account",

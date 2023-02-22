@@ -7,21 +7,21 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DataGrid, GridToolbar, GridColumnMenu } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export const RoomListResults = () => {
+export const OfferListResults = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRow, setSelectedRow] = useState([]);
   const [tableData, setTableData] = useState([]);
   const open = Boolean(anchorEl);
   const router = useRouter();
-  const hotelType = localStorage.getItem("hotelType");
-  const hotelId = localStorage.getItem("id");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/room/hotel/" + hotelId,
+          "http://localhost:5000/offer/" + localStorage.getItem("id"),
           localStorage.getItem("id")
         );
         setTableData(response.data);
@@ -33,59 +33,72 @@ export const RoomListResults = () => {
     fetchData();
   }, []);
 
+  const notifySuccess = () =>
+    toast.success("Offer Deleted  Successfuly", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const notifyError = () =>
+    toast.error("Offer Deleted Error", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
   console.log(tableData);
 
-  const hotelColumns = [
-    { field: "id", headerName: "ID", width: 80 },
-    { field: "type", headerName: "Type", width: 150 },
-    { field: "price", headerName: "Price", width: 100 },
-    { field: "description", headerName: "Description", width: 200 },
-    { field: "capacity", headerName: "Capacity", width: 80 },
-    { field: "bed_count", headerName: "Bed", width: 70 },
+  const columns = [
+    { field: "id", headerName: "ID", width: 150 },
+    { field: "description", headerName: "Description", width: 300 },
+    { field: "discount", headerName: "Discount Amount", width: 150 },
+    { field: "expireTime", headerName: "Expire Time", width: 300 },
+  ];
+
+  const rows = [
     {
-      field: "isBooking",
-      headerName: "Booking status",
-      width: 150,
-      renderCell: (params) => {
-        return params.row.isBooking == true ? (
-          <div className="">✔ Booked</div>
-        ) : (
-          <div className="">❌ Not Booked</div>
-        );
-      },
+      id: 1,
+      description: "MUI",
+      discount: 10,
+      expireTime: "12.00",
+    },
+    {
+      id: 2,
+      description: "DataGridPro",
+      discount: 15,
+      expireTime: "01.30",
     },
   ];
-
-  const villaColumns = [
-    { field: "id", headerName: "ID", width: 80 },
-    { field: "type", headerName: "Type", width: 150 },
-    { field: "price", headerName: "Price", width: 100 },
-  ];
-
-  const apartmentColumns =[
-    { field: "id", headerName: "ID", width: 80 },
-  ]
-
-  const glampingColumns=[
-    { field: "description", headerName: "Description", width: 200 },
-  ]
-
-  const hostelsColumns=[
-    { field: "id", headerName: "ID", width: 80 },
-  ]
 
   const trim = tableData?.map((data) => {
     return {
       id: data._id,
-      type: data.type,
-      price: data.price,
       description: data.description,
-      capacity: data.capacity,
-      bed_count: data.bed_count,
-      isBooking: data.isBooking,
-      // created_at: data.created_at,
+      discount: data.discount,
+      expireTime: data.expireTime,
     };
   });
+
+
+  const deleteOffer = async (offerId) => {
+    await axios
+      .delete("http://localhost:5000/offer/" + offerId)
+      .then((response) => {
+        console.log("roomId", response.data._id);
+      })
+      .catch((err) => console.log(err));
+  };
 
   // menu start
   const handleClick = (event, rowData) => {
@@ -96,12 +109,16 @@ export const RoomListResults = () => {
     setAnchorEl(null);
   };
   const handleEdit = (href) => {
-    router.push("/rooms/edit/" + href);
+    router.push("/offers/edit/" + href);
     setAnchorEl(null);
   };
   const handleDelete = (href) => {
-    router.push("/rooms/delete/" + href);
-    setAnchorEl(null);
+    let result = confirm("Do you want to delete '" + href + "' offer");
+    if (result === true) {
+      deleteOffer(href)
+        .then(notifySuccess())
+        .catch((err) => notifyError());
+    }
   };
 
   const actionColumn = [
@@ -143,30 +160,12 @@ export const RoomListResults = () => {
     },
   ];
 
-  let myCol = [];
-
-  if (hotelType === "Hotel" || "Resort") {
-    myCol = hotelColumns;
-  }
-  if (hotelType === "Villa") {
-    myCol = villaColumns;
-  }
-  if (hotelType === "Apartment") {
-    myCol = apartmentColumns;
-  }
-  if (hotelType === "Glamping") {
-    myCol = glampingColumns;
-  }
-  if (hotelType === "Luxury Hostels") {
-    myCol = hostelsColumns;
-  }
-
   // menu end
   return (
     <div style={{ height: 800, width: "100%" }}>
       <DataGrid
         rows={trim}
-        columns={actionColumn.concat(myCol)}
+        columns={actionColumn.concat(columns)}
         components={{
           Toolbar: GridToolbar,
           ColumnMenu: GridColumnMenu,
@@ -187,6 +186,7 @@ export const RoomListResults = () => {
           },
         }}
       />
+      <ToastContainer />
     </div>
   );
 };

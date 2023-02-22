@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Box,
@@ -24,6 +24,7 @@ const Page = () => {
   const roomId = route.query.roomIdEdit;
   const [tableData, setTableData] = useState([]);
   const hotelId = localStorage.getItem("id");
+  const hotelType = localStorage.getItem("hotelType");
 
   const notifySuccess = () =>
     toast.success("Room Updated Successfuly", {
@@ -37,8 +38,6 @@ const Page = () => {
       theme: "light",
     });
 
-  // console.log(tableData.type);
-
   const notifyError = () =>
     toast.error("Room update Error", {
       position: "top-right",
@@ -51,7 +50,7 @@ const Page = () => {
       theme: "light",
     });
 
-  const createRoom = async (values) => {
+  const updateRoom = async (values) => {
     await axios
       .patch("https://taprobanarome.azurewebsites.net/room/" + roomId, values)
       .then((response) => {
@@ -67,8 +66,8 @@ const Page = () => {
       price: tableData.price,
       description: tableData.description,
       isBooking: tableData.isBooking,
-      capacity: tableData.isBooking,
       bed_count: tableData.bed_count,
+      capacity: tableData.capacity,
       sqft: tableData.sqft,
       hotel: hotelId,
     },
@@ -81,7 +80,7 @@ const Page = () => {
       bed_count: Yup.number().required("Bed count is required"),
     }),
     onSubmit: (values, action) => {
-      createRoom(values)
+      updateRoom(values)
         .then(notifySuccess())
         .catch((err) => notifyError());
 
@@ -103,7 +102,7 @@ const Page = () => {
 
     fetchData();
   }, []);
-
+  console.log(tableData);
   return (
     <>
       <Head>
@@ -128,27 +127,85 @@ const Page = () => {
             <form onSubmit={formik.handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <TextField
-                    error={Boolean(formik.touched.type && formik.errors.type)}
-                    fullWidth
-                    helperText={formik.touched.type && formik.errors.type}
-                    label="Type"
-                    margin="normal"
-                    name="type"
-                    select
-                    onBlur={formik.handleBlur}
-                    InputLabelProps={{ shrink: true }}
-                    onChange={formik.handleChange}
-                    value={formik.values.type}
-                    variant="outlined"
-                  >
-                    {console.log("type=>",formik.values.type)}
-                    {roomTypes.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                  {hotelType == "Hotel" || hotelType == "Resort" || hotelType == "Villa" ? (
+                    <select
+                      style={{
+                        marginTop: 16,
+                        height: 55,
+                        width: "100%",
+                        borderColor: "lightgray",
+                        borderRadius: 8,
+                        fontSize: 16,
+                      }}
+                      error={Boolean(formik.touched.type && formik.errors.type)}
+                      fullWidth
+                      helperText={formik.touched.type && formik.errors.type}
+                      label="Type"
+                      margin="normal"
+                      name="type"
+                      onBlur={formik.handleBlur}
+                      InputLabelProps={{ shrink: true }}
+                      onChange={formik.handleChange}
+                      value={formik.values.type}
+                      variant="outlined"
+                    >
+                      {roomTypes.map((option) => (
+                        <option
+                          style={{
+                            marginTop: 16,
+                            height: 55,
+                            width: 550,
+                            borderColor: "lightgray",
+                            borderRadius: 8,
+                            fontSize: 16,
+                          }}
+                          key={option.value}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <select disabled
+                      style={{
+                        marginTop: 16,
+                        height: 55,
+                        width: "100%",
+                        borderColor: "lightgray",
+                        borderRadius: 8,
+                        fontSize: 16,
+                      }}
+                      error={Boolean(formik.touched.type && formik.errors.type)}
+                      fullWidth
+                      helperText={formik.touched.type && formik.errors.type}
+                      label="Type"
+                      margin="normal"
+                      name="type"
+                      onBlur={formik.handleBlur}
+                      InputLabelProps={{ shrink: true }}
+                      onChange={formik.handleChange}
+                      value={formik.values.type}
+                      variant="outlined"
+                    >
+                      {roomTypes.map((option) => (
+                        <option
+                          style={{
+                            marginTop: 16,
+                            height: 55,
+                            width: 550,
+                            borderColor: "lightgray",
+                            borderRadius: 8,
+                            fontSize: 16,
+                          }}
+                          key={option.value}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </Grid>
                 <Grid item xs={6}>
                   <TextField
@@ -185,7 +242,15 @@ const Page = () => {
               />
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <TextField
+                  <select
+                    style={{
+                      marginTop: 16,
+                      height: 55,
+                      width: "100%",
+                      borderColor: "lightgray",
+                      borderRadius: 8,
+                      fontSize: 16,
+                    }}
                     error={Boolean(formik.touched.isBooking && formik.errors.isBooking)}
                     fullWidth
                     helperText={formik.touched.isBooking && formik.errors.isBooking}
@@ -200,11 +265,11 @@ const Page = () => {
                     variant="outlined"
                   >
                     {roomStatus.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
+                      <option key={option.value} value={option.value}>
                         {option.label}
-                      </MenuItem>
+                      </option>
                     ))}
-                  </TextField>
+                  </select>
                 </Grid>
                 <Grid item xs={6}>
                   <TextField
@@ -266,6 +331,7 @@ const Page = () => {
           </Box>
         </Container>
       </Box>
+      <ToastContainer />
     </>
   );
 };

@@ -28,25 +28,6 @@ const Page = () => {
   const [caption, setCaption] = useState("");
   const [image, setImage] = useState("");
 
-  const submit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    // console.log(e.currentTarget.files);
-    // const files = e.currentTarget.files;
-    // formData.append("images", files);
-
-    // await axios.post("https://taprobanarome.azurewebsites.net/room/upload", formData, {
-    //   headers: { "Content-Type": "multipart/form-data" },
-    // });
-  };
-
-  // const getImage = async () => {
-  //   await axios.get("https://taprobanarome.azurewebsites.net/hotelier/63c50e074e4be311cbc8a86f").then((response) => {
-  //     setImage(response.data.images);
-  //   });
-  // };
-
   const notifySuccess = () =>
     toast.success("Room Added Successfuly", {
       position: "top-right",
@@ -73,7 +54,7 @@ const Page = () => {
 
   const createRoom = async (values) => {
     await axios
-      .post("https://taprobanarome.azurewebsites.net/room/room/", values)
+      .post("http://localhost:5000/room/room/", values)
       .then((response) => {
         console.log("roomId", response.data._id);
       })
@@ -82,7 +63,7 @@ const Page = () => {
 
   const formik = useFormik({
     initialValues: {
-      type: "",
+    
       price: 0,
       description: "",
       isBooking: false,
@@ -92,7 +73,7 @@ const Page = () => {
       hotel: hotelId,
     },
     validationSchema: Yup.object({
-      type: Yup.string().max(255).required("Room type is required"),
+     
       price: Yup.number().nullable(false).required("price is required"),
       description: Yup.string().max(1000).required("Description is required"),
       isBooking: Yup.bool(),
@@ -113,7 +94,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>New Room | TaprobanaRome</title>
+        <title>New Glamping | TaprobanaRome</title>
       </Head>
       <Box
         component="main"
@@ -128,68 +109,15 @@ const Page = () => {
             <Link underline="hover" color="inherit" href="/rooms">
               Rooms
             </Link>
-            <Typography color="text.primary">Add new room</Typography>
+            <Typography color="text.primary">Add new Glamping</Typography>
           </Breadcrumbs>
           <Box sx={{ mt: 3 }}>
-            <h1>Add new Room</h1>
-
-            {/* <form onSubmit={submit} encType="multipart/form-data"> */}
-            {/* <input type="file" name="file" multiple /> */}
-            {/* <input
-                onChange={(e) => setFile(e.target.files)}
-                type="file"
-                accept="image/*"
-                name="file"
-                multiple
-              ></input> */}
-
-            {/* <input
-                value={caption}
-                onChange={(e) => setCaption(e.target.value)}
-                type="text"
-                placeholder="Caption"
-              ></input>
-              <button type="submit">Submit</button>
-            </form>
-
-            <button onClick={() => getImage()} type="submit">
-              Get image
-            </button>
-
-            <button onClick={() => createRoom()} type="submit">
-              Create room
-            </button> */}
-
-            {/* <img src={image}></img> */}
-
-            {/* ============================== */}
-
+            <h1>Add New Glamping</h1>
             <Box mt={5} mx={5}>
               <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
-                    <TextField
-                      error={Boolean(formik.touched.type && formik.errors.type)}
-                      fullWidth
-                      helperText={formik.touched.type && formik.errors.type}
-                      label="Type"
-                      margin="normal"
-                      name="type"
-                      select
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      value={formik.values.type}
-                      variant="outlined"
-                    >
-                      {roomTypes.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
+                    <TextField disabled
                       error={Boolean(formik.touched.price && formik.errors.price)}
                       fullWidth
                       helperText={formik.touched.price && formik.errors.price}

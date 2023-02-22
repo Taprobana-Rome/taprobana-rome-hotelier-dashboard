@@ -13,41 +13,62 @@ import { Upload as UploadIcon } from "../../icons/upload";
 import { Download as DownloadIcon } from "../../icons/download";
 
 
-export const RoomListToolbar = (props) => (
-  
-  <Box {...props}>
-    
-    <Box
-      sx={{
-        alignItems: "center",
-        display: "flex",
-        justifyContent: "space-between",
-        flexWrap: "wrap",
-        m: -1,
-      }}
-    >
-      <Typography sx={{ m: 1 }} variant="h4">
-        Rooms
-      </Typography>
-      
-      <Box sx={{ m: 1 }}>
-        {/* <Button
-          startIcon={(<UploadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
-        >
-          Import
-        </Button>
-        <Button
-          startIcon={(<DownloadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
-        >
-          Export
-        </Button> */}
-        <Button color="primary" variant="contained" href="/rooms/addNewRoom">
-          Add New Room
-        </Button>
+export const RoomListToolbar = (props) => {
+  const hotelType = localStorage.getItem("hotelType");
+
+  let myform;
+if (hotelType === "Hotel" || "Resort") {
+  myform = (
+    <Button color="primary" variant="contained" href="/rooms/addNewRoomHotel">
+      Add New Room
+    </Button>
+  );
+}
+if (hotelType === "Villa") {
+  myform = (
+    <Button color="primary" variant="contained" href="/rooms/addNewRoomVilla">
+      Add New Villa
+    </Button>
+  );
+}
+if (hotelType === "Apartment") {
+  myform = (
+    <Button color="primary" variant="contained" href="/rooms/addNewRoomApartment">
+      Add New Apartment
+    </Button>
+  );
+}
+if (hotelType === "Glamping") {
+  myform = (
+    <Button color="primary" variant="contained" href="/rooms/addNewRoomGlamping">
+      Add New Glamping Room
+    </Button>
+  );
+}
+if (hotelType === "Luxury Hostels") {
+  myform = (
+    <Button color="primary" variant="contained" href="/rooms/addNewRoomLuxuryhostels">
+      Add New Hostels
+    </Button>
+  );
+}
+  return (
+    <Box {...props}>
+      <Box
+        sx={{
+          alignItems: "center",
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          m: -1,
+        }}
+      >
+        <Typography sx={{ m: 1 }} variant="h4">
+          {hotelType} Rooms
+        </Typography>
+
+        <Box sx={{ m: 1 }}>{myform}</Box>
       </Box>
     </Box>
- 
-  </Box>
-);
+  );
+};

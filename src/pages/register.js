@@ -37,16 +37,15 @@ const Register = () => {
 
   const formik = useFormik({
     initialValues: {
-      hotelName: "",
+      name: "",
       email: "",
       address: "",
       contact: "",
       password: "",
-      image: "",
-      hotel_type: "",
+      hotelType: "",
     },
     validationSchema: Yup.object({
-      hotelName: Yup.string().max(255).required("Hotel name is required"),
+      name: Yup.string().max(255).required("Hotel name is required"),
       email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
       //address: Yup.string().max(255).required("Address is required"),
       //contact: Yup.number().min(10).required("Contact number is required"),
@@ -55,20 +54,9 @@ const Register = () => {
       password: Yup.string().max(255).required("Password is required"),
       //policy: Yup.boolean().oneOf([true], "This field must be checked"),
     }),
-    onSubmit: (values, actions) => {
+    onSubmit: (values) => {
       console.log(values);
-
-      // let formData = new FormData();
-      //formData.append("hotelName", values)
-      let data = new FormData();
-      data.append("image", values.image);
-      data.append("name", values.hotelName);
-      data.append("address", values.address);
-      data.append("email", values.email);
-      data.append("password", values.password);
-      data.append("hotel_type", values.hotel_type);
-
-      signin(data);
+      signin(values);
     },
   });
 
@@ -87,30 +75,25 @@ const Register = () => {
         }}
       >
         <Container maxWidth="sm" style={{ marginTop: "50px", marginBottom: "50px" }}>
-          <NextLink href="/" passHref>
-            <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>
-              Hotelier Dashboard
-            </Button>
-          </NextLink>
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3 }}>
               <Typography color="textPrimary" variant="h4">
-                Create a new hotelier account
+                Create a new account
               </Typography>
               <Typography color="textSecondary" gutterBottom variant="body2">
-                Use your hotel email to create a new hotelier account
+                Use your official hotel email to create a new account
               </Typography>
             </Box>
             <TextField
-              error={Boolean(formik.touched.hotelName && formik.errors.hotelName)}
+              error={Boolean(formik.touched.name && formik.errors.name)}
               fullWidth
-              helperText={formik.touched.hotelName && formik.errors.hotelName}
+              helperText={formik.touched.name && formik.errors.name}
               label="Hotel Name"
               margin="normal"
-              name="hotelName"
+              name="name"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.hotelName}
+              value={formik.values.name}
               variant="outlined"
             />
             <TextField
@@ -125,7 +108,7 @@ const Register = () => {
               type="email"
               value={formik.values.email}
               variant="outlined"
-            />{" "}
+            />
             <TextField
               error={Boolean(formik.touched.address && formik.errors.address)}
               fullWidth
@@ -142,7 +125,7 @@ const Register = () => {
               error={Boolean(formik.touched.contact && formik.errors.contact)}
               fullWidth
               helperText={formik.touched.contact && formik.errors.contact}
-              label="Contact"
+              label="Contact Number"
               margin="normal"
               name="contact"
               onBlur={formik.handleBlur}
@@ -158,20 +141,20 @@ const Register = () => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  name="hotel_type"
+                  name="hotelType"
                   //value={age}
                   label="hotel type"
                   //onChange={handleChange}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  value={formik.values.hotel_type}
+                  value={formik.values.hotelType}
                 >
                   <MenuItem value={"Hotel"}>Hotel</MenuItem>
                   <MenuItem value={"Resort"}>Resort</MenuItem>
                   <MenuItem value={"Villa"}>Villa</MenuItem>
                   <MenuItem value={"Apartment"}>Apartment</MenuItem>
                   <MenuItem value={"Glamping"}>Glamping</MenuItem>
-                  <MenuItem value={"Luxury Hostels"}>Luxury Hostels</MenuItem>
+                  <MenuItem value={"Luxury Hostels"}>Luxury Hostels</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -188,41 +171,7 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
-            {/* <TextField
-              error={Boolean(formik.touched.password && formik.errors.password)}
-              fullWidth
-              helperText={formik.touched.password && formik.errors.password}
-              label="Re-enter password"
-              margin="normal"
-              name="password"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="password"
-              value={formik.values.password}
-              variant="outlined"
-            /> */}
-            <input
-              type="file"
-              name="files"
-              multiple
-              onChange={(event) => {
-                formik.setFieldValue("image", event.target.files[0]);
-              }}
-              //value={formik.values.image}
-            />
-            {/* <input
-                onChange={(e) => setFile(e.target.files)}
-                type="file"
-                accept="image/*"
-                name="file"
-                multiple
-              ></input> */}
-            {/* <input
-                value={caption}
-                //onChange={(e) => setCaption(e.target.value)}
-                type="text"
-                placeholder="Caption"
-              ></input> */}
+
             <Box
               sx={{
                 alignItems: "center",
@@ -237,10 +186,12 @@ const Register = () => {
               />
               <Typography color="textSecondary" variant="body2">
                 I have read the{" "}
-                <NextLink href="#" passHref>
-                  <Link color="primary" underline="always" variant="subtitle2">
-                    Terms and Conditions
-                  </Link>
+                <NextLink href="/terms" passHref>
+                  <a target="_blank">
+                    <Link color="primary" underline="always" variant="subtitle2">
+                      Terms and Conditions
+                    </Link>
+                  </a>
                 </NextLink>
               </Typography>
             </Box>
