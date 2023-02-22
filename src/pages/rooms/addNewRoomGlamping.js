@@ -54,7 +54,7 @@ const Page = () => {
 
   const createRoom = async (values) => {
     await axios
-      .post("http://localhost:5000/room/room/", values)
+      .post("https://taprobanarome.azurewebsites.net//room/room/", values)
       .then((response) => {
         console.log("roomId", response.data._id);
       })

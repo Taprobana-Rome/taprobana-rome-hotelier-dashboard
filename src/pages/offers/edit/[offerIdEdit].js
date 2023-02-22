@@ -59,7 +59,7 @@ const Page = () => {
 
   const updateOffer = async (values) => {
     await axios
-      .patch("http://localhost:5000/offer/" + offerId, values)
+      .patch("https://taprobanarome.azurewebsites.net//offer/" + offerId, values)
       .then((response) => {
         console.log("offerID", response.data._id);
       })
@@ -92,7 +92,7 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/offer/offers/" + offerId);
+        const response = await axios.get("https://taprobanarome.azurewebsites.net//offer/offers/" + offerId);
         setTableData(response.data);
       } catch (error) {
         console.error(error);

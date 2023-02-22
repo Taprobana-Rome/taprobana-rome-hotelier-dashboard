@@ -96,7 +96,7 @@ export const AccountProfileDetails = (props) => {
   console.log("olddata", onlyHigh);
 
   const getUpdateData = async () => {
-    const updateData = await axios.get(`http://localhost:5000/hotelier/${hotelid}`);
+    const updateData = await axios.get(`https://taprobanarome.azurewebsites.net//hotelier/${hotelid}`);
     console.log({ updateData });
     setoldData(updateData.data.hotel);
     setonlyHigh(updateData.data.hotel.highlights);
@@ -108,7 +108,7 @@ export const AccountProfileDetails = (props) => {
   }, []);
 
   const updateHotel = async (data) => {
-    const newData = await axios.put(`http://localhost:5000/hotelier/updatehotel/${hotelid}`, data).then((res)=>{
+    const newData = await axios.put(`https://taprobanarome.azurewebsites.net//hotelier/updatehotel/${hotelid}`, data).then((res)=>{
       console.log(newData);
       toast.success("Update Successfuly", {
         position: "top-right",

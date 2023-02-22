@@ -60,7 +60,7 @@ const Page = () => {
 
   const createRoom = async (values) => {
     await axios
-      .post("http://localhost:5000/reception", values)
+      .post("https://taprobanarome.azurewebsites.net//reception", values)
       .then((response) => {
         console.log("receptionId", response.data._id);
       })

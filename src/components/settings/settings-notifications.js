@@ -21,7 +21,7 @@ export const SettingsNotifications = (props) => {
   const [files, setFiles] = useState([]);
 
   const getData = async () => {
-    const images = await axios.get("http://localhost:5000/hotelier/");
+    const images = await axios.get("https://taprobanarome.azurewebsites.net//hotelier/");
     setDta(images.data.imageArray);
     console.log("pp", images);
   };

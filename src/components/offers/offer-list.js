@@ -21,7 +21,7 @@ export const OfferListResults = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/offer/" + localStorage.getItem("id"),
+          "https://taprobanarome.azurewebsites.net//offer/" + localStorage.getItem("id"),
           localStorage.getItem("id")
         );
         setTableData(response.data);
@@ -93,7 +93,7 @@ export const OfferListResults = () => {
 
   const deleteOffer = async (offerId) => {
     await axios
-      .delete("http://localhost:5000/offer/" + offerId)
+      .delete("https://taprobanarome.azurewebsites.net//offer/" + offerId)
       .then((response) => {
         console.log("roomId", response.data._id);
       })

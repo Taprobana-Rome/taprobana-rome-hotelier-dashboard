@@ -21,7 +21,7 @@ export const RoomListResults = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/room/hotel/" + hotelId,
+          "https://taprobanarome.azurewebsites.net//room/hotel/" + hotelId,
           localStorage.getItem("id")
         );
         setTableData(response.data);
