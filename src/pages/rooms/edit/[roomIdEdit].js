@@ -24,6 +24,7 @@ const Page = () => {
   const roomId = route.query.roomIdEdit;
   const [tableData, setTableData] = useState([]);
   const hotelId = localStorage.getItem("id");
+  const hotelType = localStorage.getItem("hotelType");
 
   const notifySuccess = () =>
     toast.success("Room Updated Successfuly", {
@@ -126,45 +127,85 @@ const Page = () => {
             <form onSubmit={formik.handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <select
-                    style={{
-                      marginTop: 16,
-                      height: 55,
-                      width: "100%",
-                      borderColor: "lightgray",
-                      borderRadius: 8,
-                      fontSize: 16,
-                    }}
-                    error={Boolean(formik.touched.type && formik.errors.type)}
-                    fullWidth
-                    helperText={formik.touched.type && formik.errors.type}
-                    label="Type"
-                    margin="normal"
-                    name="type"
-                    onBlur={formik.handleBlur}
-                    InputLabelProps={{ shrink: true }}
-                    onChange={formik.handleChange}
-                    value={formik.values.type}
-                    variant="outlined"
-                  >
-                    {console.log("type=>", formik.values.type)}
-                    {roomTypes.map((option) => (
-                      <option
-                        style={{
-                          marginTop: 16,
-                          height: 55,
-                          width: 550,
-                          borderColor: "lightgray",
-                          borderRadius: 8,
-                          fontSize: 16,
-                        }}
-                        key={option.value}
-                        value={option.value}
-                      >
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
+                  {hotelType == "Hotel" || hotelType == "Resort" || hotelType == "Villa" ? (
+                    <select
+                      style={{
+                        marginTop: 16,
+                        height: 55,
+                        width: "100%",
+                        borderColor: "lightgray",
+                        borderRadius: 8,
+                        fontSize: 16,
+                      }}
+                      error={Boolean(formik.touched.type && formik.errors.type)}
+                      fullWidth
+                      helperText={formik.touched.type && formik.errors.type}
+                      label="Type"
+                      margin="normal"
+                      name="type"
+                      onBlur={formik.handleBlur}
+                      InputLabelProps={{ shrink: true }}
+                      onChange={formik.handleChange}
+                      value={formik.values.type}
+                      variant="outlined"
+                    >
+                      {roomTypes.map((option) => (
+                        <option
+                          style={{
+                            marginTop: 16,
+                            height: 55,
+                            width: 550,
+                            borderColor: "lightgray",
+                            borderRadius: 8,
+                            fontSize: 16,
+                          }}
+                          key={option.value}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <select disabled
+                      style={{
+                        marginTop: 16,
+                        height: 55,
+                        width: "100%",
+                        borderColor: "lightgray",
+                        borderRadius: 8,
+                        fontSize: 16,
+                      }}
+                      error={Boolean(formik.touched.type && formik.errors.type)}
+                      fullWidth
+                      helperText={formik.touched.type && formik.errors.type}
+                      label="Type"
+                      margin="normal"
+                      name="type"
+                      onBlur={formik.handleBlur}
+                      InputLabelProps={{ shrink: true }}
+                      onChange={formik.handleChange}
+                      value={formik.values.type}
+                      variant="outlined"
+                    >
+                      {roomTypes.map((option) => (
+                        <option
+                          style={{
+                            marginTop: 16,
+                            height: 55,
+                            width: 550,
+                            borderColor: "lightgray",
+                            borderRadius: 8,
+                            fontSize: 16,
+                          }}
+                          key={option.value}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </Grid>
                 <Grid item xs={6}>
                   <TextField

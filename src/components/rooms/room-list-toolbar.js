@@ -34,7 +34,7 @@ if (hotelType === "Villa") {
 if (hotelType === "Apartment") {
   myform = (
     <Button color="primary" variant="contained" href="/rooms/addNewRoomApartment">
-      Add New Villa
+      Add New Apartment
     </Button>
   );
 }
@@ -47,7 +47,7 @@ if (hotelType === "Glamping") {
 }
 if (hotelType === "Luxury Hostels") {
   myform = (
-    <Button color="primary" variant="contained" href="/rooms/addNewRoomHostels">
+    <Button color="primary" variant="contained" href="/rooms/addNewRoomLuxuryhostels">
       Add New Hostels
     </Button>
   );

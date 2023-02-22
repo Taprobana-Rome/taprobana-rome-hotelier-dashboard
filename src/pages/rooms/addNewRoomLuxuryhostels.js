@@ -94,7 +94,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>New Apartment | TaprobanaRome</title>
+        <title>New Luxury hostels | TaprobanaRome</title>
       </Head>
       <Box
         component="main"
@@ -109,14 +109,13 @@ const Page = () => {
             <Link underline="hover" color="inherit" href="/rooms">
               Rooms
             </Link>
-            <Typography color="text.primary">Add new Apartment</Typography>
+            <Typography color="text.primary">Add new Luxury hostels</Typography>
           </Breadcrumbs>
           <Box sx={{ mt: 3 }}>
-            <h1>Add New Apartment</h1>
+            <h1>Add New Luxury hostels</h1>
             <Box mt={5} mx={5}>
               <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2}>
-                  
                   <Grid item xs={6}>
                     <TextField
                       error={Boolean(formik.touched.price && formik.errors.price)}

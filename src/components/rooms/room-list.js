@@ -15,12 +15,13 @@ export const RoomListResults = () => {
   const open = Boolean(anchorEl);
   const router = useRouter();
   const hotelType = localStorage.getItem("hotelType");
+  const hotelId = localStorage.getItem("id");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/room/hotel/" + localStorage.getItem("id"),
+          "http://localhost:5000/room/hotel/" + hotelId,
           localStorage.getItem("id")
         );
         setTableData(response.data);
@@ -34,7 +35,7 @@ export const RoomListResults = () => {
 
   console.log(tableData);
 
-  const columns = [
+  const hotelColumns = [
     { field: "id", headerName: "ID", width: 80 },
     { field: "type", headerName: "Type", width: 150 },
     { field: "price", headerName: "Price", width: 100 },
@@ -54,6 +55,24 @@ export const RoomListResults = () => {
       },
     },
   ];
+
+  const villaColumns = [
+    { field: "id", headerName: "ID", width: 80 },
+    { field: "type", headerName: "Type", width: 150 },
+    { field: "price", headerName: "Price", width: 100 },
+  ];
+
+  const apartmentColumns =[
+    { field: "id", headerName: "ID", width: 80 },
+  ]
+
+  const glampingColumns=[
+    { field: "description", headerName: "Description", width: 200 },
+  ]
+
+  const hostelsColumns=[
+    { field: "id", headerName: "ID", width: 80 },
+  ]
 
   const trim = tableData?.map((data) => {
     return {
@@ -124,12 +143,30 @@ export const RoomListResults = () => {
     },
   ];
 
+  let myCol = [];
+
+  if (hotelType === "Hotel" || "Resort") {
+    myCol = hotelColumns;
+  }
+  if (hotelType === "Villa") {
+    myCol = villaColumns;
+  }
+  if (hotelType === "Apartment") {
+    myCol = apartmentColumns;
+  }
+  if (hotelType === "Glamping") {
+    myCol = glampingColumns;
+  }
+  if (hotelType === "Luxury Hostels") {
+    myCol = hostelsColumns;
+  }
+
   // menu end
   return (
     <div style={{ height: 800, width: "100%" }}>
       <DataGrid
         rows={trim}
-        columns={actionColumn.concat(columns)}
+        columns={actionColumn.concat(myCol)}
         components={{
           Toolbar: GridToolbar,
           ColumnMenu: GridColumnMenu,
